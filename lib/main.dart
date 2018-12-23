@@ -69,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 baseline: _screenHeight,
                 child: Monkey(
                   movement: _moving,
+                  speed: 15,
                 )),
           ],
         ),

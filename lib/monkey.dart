@@ -4,12 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
 enum MonkeyMovement { LEFT, RIGHT, WAIT }
+
 class Monkey extends StatefulWidget {
+  ///pass and update state of MonkeyMovement variable to control the monkey
   final MonkeyMovement movement;
+  ///determines the pixel movement every x millis
+  final double speed;
   final double height;
   final double width;
 
-  Monkey({@required this.movement, this.height = 80.0, this.width = 80.0});
+  Monkey(
+      {@required this.movement,
+      this.height = 80.0,
+      this.width = 80.0,
+      this.speed = 15.0});
 
   @override
   _MonkeyState createState() => _MonkeyState();
@@ -21,12 +29,12 @@ class _MonkeyState extends State<Monkey> {
 
   @override
   void initState() {
-    _timer = Timer.periodic(Duration(milliseconds: 5), (timer) {
+    _timer = Timer.periodic(Duration(milliseconds: 40), (timer) {
       setState(() {
         if (widget.movement == MonkeyMovement.LEFT) {
-          _margin -= 2;
+          _margin -= widget.speed;
         } else if (widget.movement == MonkeyMovement.RIGHT) {
-          _margin += 2;
+          _margin += widget.speed;
         }
       });
     });
