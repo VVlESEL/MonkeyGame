@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/services.dart';
+import 'package:monkeygame/banana.dart';
 import 'package:monkeygame/monkey.dart';
 
 void main() => runApp(new MyApp());
@@ -10,8 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Set landscape orientation
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
+      DeviceOrientation.portraitUp,
     ]);
 
     return MaterialApp(
@@ -33,6 +32,21 @@ class _MyHomePageState extends State<MyHomePage> {
   double _screenWidth;
   double _screenHeight;
   MonkeyMovement _moving = MonkeyMovement.WAIT;
+  List<Widget> _list = List();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _list.add(Banana(
+      marginLeft: 100.0,
+      speed: 5,
+    ));
+    _list.add(Banana(
+      marginLeft: 239.0,
+      speed: 3,
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,31 +61,20 @@ class _MyHomePageState extends State<MyHomePage> {
               : MonkeyMovement.LEFT;
         });
       },
-      onPanEnd: (_) => setState(() {
-            _moving = MonkeyMovement.WAIT;
-          }),
+      onPanEnd: (_) => setState(() => _moving = MonkeyMovement.WAIT),
       child: Scaffold(
         body: Stack(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(left: 100.0, top: 100.0),
-              height: 50.0,
-              width: 50.0,
-              child: FlareActor(
-                "assets/banana.flr",
-                alignment: Alignment.center,
-                animation: "rotate",
-                fit: BoxFit.contain,
-              ),
-            ),
-            Baseline(
-                baselineType: TextBaseline.alphabetic,
-                baseline: _screenHeight,
-                child: Monkey(
-                  movement: _moving,
-                  speed: 15,
-                )),
-          ],
+          children: _list +
+              (<Widget>[
+                Baseline(
+                  baselineType: TextBaseline.alphabetic,
+                  baseline: _screenHeight,
+                  child: Monkey(
+                    movement: _moving,
+                    speed: 10,
+                  ),
+                ),
+              ]),
         ),
       ),
     );
