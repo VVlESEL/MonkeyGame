@@ -6,18 +6,24 @@ import 'package:flare_flutter/flare_actor.dart';
 enum MonkeyMovement { LEFT, RIGHT, WAIT }
 
 class Monkey extends StatefulWidget {
+  static double xValue;
+  static double height;
+  static double width;
   ///pass and update state of MonkeyMovement variable to control the monkey
   final MonkeyMovement movement;
   ///determines the pixel movement every x millis
   final double speed;
-  final double height;
-  final double width;
 
   Monkey(
       {@required this.movement,
-      this.height = 80.0,
-      this.width = 80.0,
-      this.speed = 15.0});
+        height = 80.0,
+        width = 80.0,
+        this.speed = 15.0}) {
+
+    Monkey.height = height;
+    Monkey.width = width;
+    Monkey.xValue = 100.0;
+  }
 
   @override
   _MonkeyState createState() => _MonkeyState();
@@ -36,6 +42,7 @@ class _MonkeyState extends State<Monkey> {
         } else if (widget.movement == MonkeyMovement.RIGHT) {
           _margin += widget.speed;
         }
+        Monkey.xValue = _margin;
       });
     });
 
@@ -51,8 +58,8 @@ class _MonkeyState extends State<Monkey> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.height,
-      width: widget.width,
+      height: Monkey.height,
+      width: Monkey.width,
       margin: EdgeInsets.only(
         left: getMargin(context),
       ),
@@ -71,7 +78,7 @@ class _MonkeyState extends State<Monkey> {
 
   double getMargin(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    _margin = _margin > 0 ? math.min(_margin, screenWidth - widget.width) : 0.0;
+    _margin = _margin > 0 ? math.min(_margin, screenWidth - Monkey.width) : 0.0;
     return _margin;
   }
 }
