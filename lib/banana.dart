@@ -51,7 +51,10 @@ class _BananaState extends State<Banana> {
   Widget build(BuildContext context) {
     if (_timer == null)
       _timer = Timer.periodic(Duration(milliseconds: 40), (timer) {
-        update(context);
+        if (Game.lifecycleState != AppLifecycleState.paused &&
+            Game.lifecycleState != AppLifecycleState.inactive) {
+          update(context);
+        }
       });
 
     return Container(
@@ -76,9 +79,9 @@ class _BananaState extends State<Banana> {
 
     if (_animation == "rotate") {
       if (widget.onHitGround != null &&
-          _marginTop > Game.screenHeight - Monkey.height - widget.height &&
-          widget.marginLeft + widget.width / 2 > Monkey.xValue &&
-          widget.marginLeft < Monkey.xValue + Monkey.width / 2) {
+          _marginTop > Game.screenHeight - Game.monkeyHeight - widget.height &&
+          widget.marginLeft + widget.width > Game.monkeyX &&
+          widget.marginLeft < Game.monkeyX + Game.monkeyWidth) {
         _animation = "success";
         Timer(Duration(seconds: 1), () => widget.onHitMonkey(widget));
       } else if (widget.onHitMonkey != null &&

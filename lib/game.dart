@@ -1,13 +1,28 @@
+import 'dart:async';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:monkeygame/banana.dart';
 import 'package:monkeygame/monkey.dart';
 
 class Game extends StatefulWidget {
+  ///lifecycle state of the app
+  static AppLifecycleState lifecycleState;
+
   ///height of visible game stack
   static double screenHeight;
 
   ///width of visible game stack
   static double screenWidth;
+
+  ///current x value of the monkey
+  static double monkeyX = 100.0;
+
+  ///height of the monkey
+  static final double monkeyHeight = 80.0;
+
+  ///width of the monkey
+  static final double monkeyWidth = 80.0;
 
   Game({Key key}) : super(key: key);
 
@@ -15,39 +30,40 @@ class Game extends StatefulWidget {
   _GameState createState() => _GameState();
 }
 
-class _GameState extends State<Game> {
+class _GameState extends State<Game> with WidgetsBindingObserver {
+  Timer _timer;
   MonkeyMovement _moving = MonkeyMovement.WAIT;
   List<Widget> _bananaList = List();
   int _bananaCounter = 0;
+  int _seconds = 0;
 
   @override
   void initState() {
     super.initState();
 
-    _bananaList.add(Banana(
-      key: UniqueKey(),
-      marginLeft: 100.0,
-      speed: 5,
-      onHitGround: (banana) {
-        _bananaList.remove(banana);
-      },
-      onHitMonkey: (banana) {
-        setState(() => _bananaCounter++);
-        _bananaList.remove(banana);
-      },
-    ));
-    _bananaList.add(Banana(
-      key: UniqueKey(),
-      marginLeft: 239.0,
-      speed: 3,
-      onHitGround: (banana) {
-        _bananaList.remove(banana);
-      },
-      onHitMonkey: (banana) {
-        setState(() => _bananaCounter++);
-        _bananaList.remove(banana);
-      },
-    ));
+    if (_timer == null) {
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        if (Game.lifecycleState != AppLifecycleState.paused &&
+            Game.lifecycleState != AppLifecycleState.inactive) {
+          _seconds++;
+          addBanana();
+          setState(() {});
+        }
+      });
+    }
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    Game.lifecycleState = state;
   }
 
   @override
@@ -63,9 +79,14 @@ class _GameState extends State<Game> {
       onPanEnd: (_) => setState(() => _moving = MonkeyMovement.WAIT),
       child: Scaffold(
         appBar: AppBar(
-          title: CircleAvatar(
+          leading: CircleAvatar(
             child: Text(_bananaCounter.toString()),
           ),
+          actions: <Widget>[
+            CircleAvatar(
+              child: Text(_seconds.toString()),
+            )
+          ],
         ),
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
@@ -74,9 +95,15 @@ class _GameState extends State<Game> {
             return Stack(
               children: _bananaList +
                   (<Widget>[
+                    Image.asset(
+                      "img_jungle.png",
+                      fit: BoxFit.fill,
+                    ),
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: Monkey(
+                        height: Game.monkeyHeight,
+                        width: Game.monkeyWidth,
                         movement: _moving,
                         speed: 10,
                       ),
@@ -87,5 +114,29 @@ class _GameState extends State<Game> {
         ),
       ),
     );
+  }
+
+  void addBanana() {
+    math.Random random = math.Random();
+    double size = 30.0 + random.nextInt(20);
+    double margin =
+        random.nextInt((Game.screenWidth - size).toInt()).toDouble();
+    double speed = 5.0 + random.nextInt(15);
+
+    Banana banana = Banana(
+      key: UniqueKey(),
+      height: size,
+      width: size,
+      marginLeft: margin,
+      speed: speed,
+      onHitGround: (banana) {
+        _bananaList.remove(banana);
+      },
+      onHitMonkey: (banana) {
+        setState(() => _bananaCounter++);
+        _bananaList.remove(banana);
+      },
+    );
+    _bananaList.add(banana);
   }
 }
