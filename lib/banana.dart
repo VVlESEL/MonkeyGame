@@ -2,17 +2,19 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:monkeygame/game.dart';
 import 'package:monkeygame/monkey.dart';
 
+typedef void BananaCallback(Banana banana);
 class Banana extends StatefulWidget {
   ///determines the pixel movement every x millis
   final double speed;
 
-  ///callback after reaching the ground
-  final Function onHitGround;
+  ///callback after reaching the ground, remove view here
+  final BananaCallback onHitGround;
 
-  ///callback after hitting the monkey
-  final Function onHitMonkey;
+  ///callback after hitting the monkey, remove view here
+  final BananaCallback onHitMonkey;
 
   ///determines where the banana falls
   final double marginLeft;
@@ -21,13 +23,14 @@ class Banana extends StatefulWidget {
   final double width;
 
   Banana({
+    Key key,
     @required this.marginLeft,
     this.onHitGround,
     this.onHitMonkey,
     this.speed = 15.0,
     this.height = 50.0,
     this.width = 50.0,
-  });
+  }) : super(key: key);
 
   @override
   _BananaState createState() => _BananaState();
@@ -36,7 +39,7 @@ class Banana extends StatefulWidget {
 class _BananaState extends State<Banana> {
   Timer _timer;
   double _marginTop = 0.0;
-  String _animation;
+  String _animation = "rotate";
 
   @override
   void dispose() {
@@ -68,24 +71,22 @@ class _BananaState extends State<Banana> {
   }
 
   void update(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-
     _marginTop += widget.speed;
-    _marginTop = math.min(_marginTop, screenHeight - widget.height);
+    _marginTop = math.min(_marginTop, Game.screenHeight - widget.height);
 
-    if (widget.onHitGround != null &&
-        _marginTop > screenHeight - Monkey.height - widget.height &&
-        widget.marginLeft + widget.width/2 > Monkey.xValue &&
-        widget.marginLeft < Monkey.xValue + Monkey.width/2) {
-
-      print(widget.marginLeft.toString() + " " + Monkey.xValue.toString() + " " + Monkey.width.toString());
-      widget.onHitMonkey();
-    } else if (widget.onHitMonkey != null &&
-        _marginTop >= screenHeight - widget.height) {
-      widget.onHitGround();
+    if (_animation == "rotate") {
+      if (widget.onHitGround != null &&
+          _marginTop > Game.screenHeight - Monkey.height - widget.height &&
+          widget.marginLeft + widget.width / 2 > Monkey.xValue &&
+          widget.marginLeft < Monkey.xValue + Monkey.width / 2) {
+        _animation = "success";
+        Timer(Duration(seconds: 1), () => widget.onHitMonkey(widget));
+      } else if (widget.onHitMonkey != null &&
+          _marginTop >= Game.screenHeight - widget.height) {
+        _animation = "failure";
+        Timer(Duration(seconds: 1), () => widget.onHitGround(widget));
+      }
     }
-
-    _animation = "rotate";
 
     setState(() {});
   }

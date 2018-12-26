@@ -6,7 +6,7 @@ import 'package:flare_flutter/flare_actor.dart';
 enum MonkeyMovement { LEFT, RIGHT, WAIT }
 
 class Monkey extends StatefulWidget {
-  static double xValue;
+  static double xValue = 100.0;
   static double height;
   static double width;
   ///pass and update state of MonkeyMovement variable to control the monkey
@@ -22,7 +22,6 @@ class Monkey extends StatefulWidget {
 
     Monkey.height = height;
     Monkey.width = width;
-    Monkey.xValue = 100.0;
   }
 
   @override
