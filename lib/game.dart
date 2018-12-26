@@ -77,41 +77,54 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
         });
       },
       onPanEnd: (_) => setState(() => _moving = MonkeyMovement.WAIT),
-      child: Scaffold(
-        appBar: AppBar(
-          leading: CircleAvatar(
-            child: Text(_bananaCounter.toString()),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/img_jungle.png"),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: Container(
+              color: Colors.white.withOpacity(0.30),
+            ),
           ),
-          actions: <Widget>[
-            CircleAvatar(
-              child: Text(_seconds.toString()),
-            )
-          ],
-        ),
-        body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            Game.screenHeight = constraints.maxHeight;
-            Game.screenWidth = constraints.maxWidth;
-            return Stack(
-              children: _bananaList +
-                  (<Widget>[
-                    Image.asset(
-                      "img_jungle.png",
-                      fit: BoxFit.fill,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Monkey(
-                        height: Game.monkeyHeight,
-                        width: Game.monkeyWidth,
-                        movement: _moving,
-                        speed: 10,
-                      ),
-                    ),
-                  ]),
-            );
-          },
-        ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              leading: CircleAvatar(
+                child: Text(_bananaCounter.toString()),
+              ),
+              actions: <Widget>[
+                CircleAvatar(
+                  child: Text(_seconds.toString()),
+                )
+              ],
+            ),
+            body: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                Game.screenHeight = constraints.maxHeight;
+                Game.screenWidth = constraints.maxWidth;
+                return Stack(
+                  children: _bananaList +
+                      (<Widget>[
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Monkey(
+                            height: Game.monkeyHeight,
+                            width: Game.monkeyWidth,
+                            movement: _moving,
+                            speed: 10,
+                          ),
+                        ),
+                      ]),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
