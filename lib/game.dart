@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:monkeygame/banana.dart';
+import 'package:monkeygame/falling_object.dart';
+import 'package:monkeygame/game_appbar.dart';
+import 'package:monkeygame/game_scaffold.dart';
 import 'package:monkeygame/monkey.dart';
 
 class Game extends StatefulWidget {
@@ -17,6 +19,9 @@ class Game extends StatefulWidget {
 
   ///current x value of the monkey
   static double monkeyX = 100.0;
+
+  ///state of the monkey
+  static bool monkeyIsDizzy = false;
 
   ///height of the monkey
   static final double monkeyHeight = 80.0;
@@ -34,8 +39,13 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
   Timer _timer;
   MonkeyMovement _moving = MonkeyMovement.WAIT;
   List<Widget> _bananaList = List();
+  List<Widget> _coconutList = List();
+  double _baseSpeed = 5.0;
   int _bananaCounter = 0;
-  int _seconds = 0;
+  int _secondsLeft = 30;
+  int _secondsPassed = 0;
+  String _info = "";
+  bool _isGameOver = false;
 
   @override
   void initState() {
@@ -43,11 +53,27 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
 
     if (_timer == null) {
       _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-        if (Game.lifecycleState != AppLifecycleState.paused &&
+        if (mounted &&
+            Game.lifecycleState != AppLifecycleState.paused &&
             Game.lifecycleState != AppLifecycleState.inactive) {
-          _seconds++;
-          addBanana();
-          setState(() {});
+          if (!_isGameOver && _secondsLeft > 0) {
+            _secondsLeft--;
+            _secondsPassed++;
+            if (_secondsPassed % 10 == 0) {
+              _baseSpeed++;
+              newInfo("Banana Speed Increased!");
+            }
+            if(_secondsPassed % 5 == 0)addCoconut();
+            addBanana();
+            setState(() {});
+          } else if (!_isGameOver) {
+            setState(() {
+              _isGameOver = true;
+              _bananaList.clear();
+              _coconutList.clear();
+              _info = "Game Over!";
+            });
+          }
         }
       });
     }
@@ -77,54 +103,42 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
         });
       },
       onPanEnd: (_) => setState(() => _moving = MonkeyMovement.WAIT),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/img_jungle.png"),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: Container(
-              color: Colors.white.withOpacity(0.30),
-            ),
-          ),
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              leading: CircleAvatar(
-                child: Text(_bananaCounter.toString()),
-              ),
-              actions: <Widget>[
-                CircleAvatar(
-                  child: Text(_seconds.toString()),
-                )
-              ],
-            ),
-            body: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                Game.screenHeight = constraints.maxHeight;
-                Game.screenWidth = constraints.maxWidth;
-                return Stack(
-                  children: _bananaList +
-                      (<Widget>[
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Monkey(
-                            height: Game.monkeyHeight,
-                            width: Game.monkeyWidth,
-                            movement: _moving,
-                            speed: 10,
-                          ),
+      child: GameScaffold(
+        appBar: GameAppBar(
+          bananaCounter: _bananaCounter,
+          secondsLeft: _secondsLeft,
+        ),
+        body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            Game.screenHeight = constraints.maxHeight;
+            Game.screenWidth = constraints.maxWidth;
+            return Stack(
+              children: _bananaList +
+                  _coconutList +
+                  (<Widget>[
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Monkey(
+                        height: Game.monkeyHeight,
+                        width: Game.monkeyWidth,
+                        movement: _moving,
+                        speed: 10,
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        _info,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ]),
-                );
-              },
-            ),
-          ),
-        ],
+                      ),
+                    ),
+                  ]),
+            );
+          },
+        ),
       ),
     );
   }
@@ -133,23 +147,68 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     math.Random random = math.Random();
     double size = 30.0 + random.nextInt(20);
     double margin =
-        random.nextInt((Game.screenWidth - size).toInt()).toDouble();
-    double speed = 5.0 + random.nextInt(15);
+    random.nextInt((Game.screenWidth - size).toInt()).toDouble();
+    double speed = _baseSpeed + random.nextInt(15);
 
-    Banana banana = Banana(
+    FallingObject banana = FallingObject(
       key: UniqueKey(),
+      actorAsset: "assets/banana.flr",
+      idleAnimation: "rotate",
+      hitMonkeyAnimation: "success",
+      hitGroundAnimation: "failure",
       height: size,
       width: size,
       marginLeft: margin,
       speed: speed,
-      onHitGround: (banana) {
+      onFaded: (banana) {
         _bananaList.remove(banana);
       },
       onHitMonkey: (banana) {
-        setState(() => _bananaCounter++);
-        _bananaList.remove(banana);
+        if (mounted) {
+          setState(() {
+            _bananaCounter++;
+            _secondsLeft++;
+          });
+        }
       },
     );
     _bananaList.add(banana);
+  }
+
+  void addCoconut() {
+    math.Random random = math.Random();
+    double size = 30.0;
+    double margin =
+    random.nextInt((Game.screenWidth - size).toInt()).toDouble();
+    double speed = _baseSpeed + random.nextInt(15);
+
+    FallingObject coconut = FallingObject(
+      key: UniqueKey(),
+      actorAsset: "assets/coconut.flr",
+      idleAnimation: "rotate",
+      hitMonkeyAnimation: "hit",
+      hitGroundAnimation: "hit",
+      height: size,
+      width: size,
+      marginLeft: margin,
+      speed: speed,
+      onFaded: (coconut) {
+        _coconutList.remove(coconut);
+        Game.monkeyIsDizzy = false;
+      },
+      onHitMonkey: (coconut) {
+        Game.monkeyIsDizzy = true;
+      },
+    );
+    _coconutList.add(coconut);
+  }
+
+  void newInfo(String info) {
+    if (mounted) {
+      setState(() {
+        _info = info;
+      });
+      Timer(Duration(seconds: 3), () => _info = "");
+    }
   }
 }

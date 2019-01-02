@@ -33,6 +33,7 @@ class _MonkeyState extends State<Monkey> {
   @override
   void initState() {
     _timer = Timer.periodic(Duration(milliseconds: 40), (timer) {
+      if(Game.monkeyIsDizzy) return;
       setState(() {
         if (widget.movement == MonkeyMovement.LEFT) {
           _margin -= widget.speed;
@@ -70,6 +71,7 @@ class _MonkeyState extends State<Monkey> {
   }
 
   String getAnimation() {
+    if(Game.monkeyIsDizzy) return "dizzy";
     return widget.movement == MonkeyMovement.WAIT ? "wait" : "walk";
   }
 

@@ -7,6 +7,10 @@
 
 build/
 
+.properties
+google-services.json
+GoogleService-Info.plist
+
 .flutter-plugins
 =======
 # See https://www.dartlang.org/guides/libraries/private-files
