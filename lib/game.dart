@@ -8,6 +8,7 @@ import 'package:monkeygame/game_scaffold.dart';
 import 'package:monkeygame/monkey.dart';
 import 'package:monkeygame/leaderboard.dart';
 import 'package:monkeygame/auth.dart' as auth;
+import 'package:monkeygame/leaderboard_dialog.dart';
 
 class Game extends StatefulWidget {
   ///lifecycle state of the app
@@ -62,8 +63,6 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
             _secondsLeft--;
             _secondsPassed++;
             if (_secondsPassed % 10 == 0) {
-              _neverSatisfied();
-
               _baseSpeed++;
               _newInfo("Banana Speed Increased!");
             }
@@ -75,7 +74,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
               _isGameOver = true;
               _bananaList.clear();
               _coconutList.clear();
-              _info = "Game Over!";
+              _showLeaderboard();
             });
           }
         }
@@ -216,22 +215,13 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     }
   }
 
-  Future<void> _neverSatisfied() async {
+  Future<void> _showLeaderboard() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Leaderboard"),
-          content: Leaderboard(),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Cancel"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+        return LeaderboardDialog(
+          score: _bananaCounter,
         );
       },
     );
