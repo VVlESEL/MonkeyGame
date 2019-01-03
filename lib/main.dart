@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:monkeygame/game.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:monkeygame/auth.dart' as auth;
 
 void main() => runApp(new MyApp());
 
@@ -29,35 +28,6 @@ class Start extends StatefulWidget {
 }
 
 class _StartState extends State<Start> {
-
-  ///has to be relmoved blablabla
-  ///
-  /// ///
-  /// /// ///
-  @override
-  void initState() {
-    var facebookLogin = new FacebookLogin();
-    facebookLogin.logInWithReadPermissions(['email']).then((result) {
-      switch (result.status) {
-        case FacebookLoginStatus.loggedIn:
-          FirebaseAuth.instance
-              .signInWithFacebook(accessToken: result.accessToken.token)
-              .then((user) {
-            print(user.uid);
-          });
-          break;
-        case FacebookLoginStatus.cancelledByUser:
-          print("canceled");
-          break;
-        case FacebookLoginStatus.error:
-          print(result.errorMessage);
-          break;
-      }
-    });
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
