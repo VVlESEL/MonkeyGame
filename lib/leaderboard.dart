@@ -10,24 +10,31 @@ class _LeaderboardState extends State<Leaderboard> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Firestore.instance.collection("leaderboard").snapshots(),
+      stream: Firestore.instance
+          .collection("leaderboard")
+          .orderBy("score", descending: true)
+          .limit(100)
+          .snapshots(),
       builder: (context, snapshot) {
-        if(!snapshot.hasData) return const Text("Loading...");
+        if (!snapshot.hasData) return const Text("Loading...");
         return ListView.builder(
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
-              _buildListItem(context, snapshot.data.documents[index]);
+              return _buildListItem(
+                  context, index+1, snapshot.data.documents[index]);
             });
       },
     );
   }
 
-  Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
+  Widget _buildListItem(
+      BuildContext context, int rank, DocumentSnapshot document) {
     return ListTile(
       leading: CircleAvatar(
-        child: Text(document["score"]),
+        child: Text(rank.toString()),
       ),
-      title: document["name"],
+      title: Text(document["name"].toString()),
+      trailing: Text(document["score"].toString()),
     );
   }
 }

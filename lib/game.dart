@@ -6,6 +6,8 @@ import 'package:monkeygame/falling_object.dart';
 import 'package:monkeygame/game_appbar.dart';
 import 'package:monkeygame/game_scaffold.dart';
 import 'package:monkeygame/monkey.dart';
+import 'package:monkeygame/leaderboard.dart';
+import 'package:monkeygame/auth.dart' as auth;
 
 class Game extends StatefulWidget {
   ///lifecycle state of the app
@@ -60,11 +62,13 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
             _secondsLeft--;
             _secondsPassed++;
             if (_secondsPassed % 10 == 0) {
+              _neverSatisfied();
+
               _baseSpeed++;
-              newInfo("Banana Speed Increased!");
+              _newInfo("Banana Speed Increased!");
             }
-            if(_secondsPassed % 5 == 0)addCoconut();
-            addBanana();
+            if(_secondsPassed % 5 == 0)_addCoconut();
+            _addBanana();
             setState(() {});
           } else if (!_isGameOver) {
             setState(() {
@@ -143,7 +147,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     );
   }
 
-  void addBanana() {
+  void _addBanana() {
     math.Random random = math.Random();
     double size = 30.0 + random.nextInt(20);
     double margin =
@@ -175,7 +179,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     _bananaList.add(banana);
   }
 
-  void addCoconut() {
+  void _addCoconut() {
     math.Random random = math.Random();
     double size = 30.0;
     double margin =
@@ -203,12 +207,33 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     _coconutList.add(coconut);
   }
 
-  void newInfo(String info) {
+  void _newInfo(String info) {
     if (mounted) {
       setState(() {
         _info = info;
       });
       Timer(Duration(seconds: 3), () => _info = "");
     }
+  }
+
+  Future<void> _neverSatisfied() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Leaderboard"),
+          content: Leaderboard(),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
