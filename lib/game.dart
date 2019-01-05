@@ -45,7 +45,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
   List<Widget> _coconutList = List();
   double _baseSpeed = 5.0;
   int _bananaCounter = 0;
-  int _secondsLeft = 30;
+  int _secondsLeft = 1;
   int _secondsPassed = 0;
   String _info = "";
   bool _isGameOver = false;

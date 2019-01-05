@@ -39,31 +39,121 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
 
   Future<void> _updateScore() async {
     bool isLoggedIn = await auth.checkLogin();
-    if(!isLoggedIn) {
+    if (isLoggedIn) {
+      _sendScore();
+    } else {
       setState(() {
         _content = Row(
           children: <Widget>[
             FlatButton(
-              onPressed: () {
-                auth.facebookLogin();
+              onPressed: () async {
+                bool isLogin = await auth.facebookLogin();
+                if (isLogin) {
+                  if (await _chooseNameOrContinue()) {
+                    _sendScore();
+                    setState(() => _content = Leaderboard());
+                  }
+                }
               },
-              child: Text("FB"),
-            ),FlatButton(
-              onPressed: () {
-                auth.googleLogin();
+              child: Image.asset(
+                "assets/ic_facebook.png",
+                width: 30.0,
+                height: 30.0,
+              ),
+            ),
+            FlatButton(
+              onPressed: () async {
+                bool isLogin = await auth.googleLogin();
+                if (isLogin) {
+                  if (await _chooseNameOrContinue()) {
+                    _sendScore();
+                    setState(() => _content = Leaderboard());
+                  }
+                }
               },
-              child: Text("Google"),
+              child: Image.asset(
+                "assets/ic_google.png",
+                width: 30.0,
+                height: 30.0,
+              ),
             ),
           ],
         );
       });
     }
-    Firestore.instance
+  }
+
+  Future<void> _sendScore() async {
+    return Firestore.instance
         .collection("leaderboard")
         .document(auth.currentUser.uid)
-        .setData({
-          "name": auth.currentUser.displayName,
-          "score": widget.score
-        });
+        .setData({"name": auth.currentUser.displayName, "score": widget.score});
+  }
+
+  Future<bool> _chooseNameOrContinue() async {
+    if (auth.currentUser.metadata.creationTimestamp !=
+        auth.currentUser.metadata.lastSignInTimestamp) return true;
+
+    GlobalKey<FormState> formKey = GlobalKey();
+    TextEditingController controller = TextEditingController();
+
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return Form(
+          key: formKey,
+          child: AlertDialog(
+            title: Text("Choose a Beautiful Name"),
+            content: TextFormField(
+              validator: (text) {
+                if (text.isEmpty || text.trim().length < 5)
+                  return "Please enter min 5 letters...";
+              },
+              controller: controller,
+              decoration: InputDecoration(hintText: "Beautiful Name"),
+            ),
+            actions: <Widget>[
+              Builder(
+                builder: (BuildContext context) => FlatButton(
+                      child: Text("Submit"),
+                      onPressed: () async {
+                        if (!formKey.currentState.validate()) return;
+
+                        QuerySnapshot snapshot = await Firestore.instance
+                            .collection("user")
+                            .where("name", isEqualTo: controller.text)
+                            .limit(1)
+                            .getDocuments();
+
+                        if (snapshot.documents.length > 0) {
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                "Name is beautiful but already exists. Please choose another name."),
+                            duration: Duration(seconds: 3),
+                          ));
+                          return;
+                        }
+
+                        await auth.updateUser(controller.text);
+                        await Firestore.instance
+                            .collection("user")
+                            .document(auth.currentUser.uid)
+                            .setData({"name": controller.text});
+                        Navigator.of(context).pop(true);
+                      },
+                    ),
+              ),
+              FlatButton(
+                child: Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

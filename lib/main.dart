@@ -52,6 +52,19 @@ class _StartState extends State<Start> {
               child: Text("Start Game"),
             ),
           ),
+          Builder(
+            builder: (BuildContext context) => FlatButton(
+                  onPressed: () => auth.logout().then((b) {
+                        if (b) {
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text("Logged out..."),
+                            duration: Duration(seconds: 2),
+                          ));
+                        }
+                      }),
+                  child: Text("Logout"),
+                ),
+          )
         ],
       ),
     );
