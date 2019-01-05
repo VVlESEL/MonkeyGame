@@ -10,7 +10,7 @@ FirebaseUser currentUser;
 Future<bool> checkLogin() async {
   await FirebaseAuth.instance.currentUser().then((user) {
     if (user != null) {
-      print("checkLogin: User is logged in");
+      print("checkLogin: User ${user.displayName} is logged in");
       currentUser = user;
     } else
       print("checkLogin: User is NOT logged in");
@@ -41,7 +41,7 @@ Future<void> updateUser(String name) async {
     print("updateUser: Something went wrong! ${error.toString()}");
     throw error;
   });
-  return currentUser.displayName == name;
+  return checkLogin();
 }
 
 Future<bool> facebookLogin() async {

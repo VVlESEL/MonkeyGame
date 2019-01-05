@@ -94,66 +94,87 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
     if (auth.currentUser.metadata.creationTimestamp !=
         auth.currentUser.metadata.lastSignInTimestamp) return true;
 
-    GlobalKey<FormState> formKey = GlobalKey();
-    TextEditingController controller = TextEditingController();
-
     return showDialog<bool>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return Form(
-          key: formKey,
-          child: AlertDialog(
-            title: Text("Choose a Beautiful Name"),
-            content: TextFormField(
+        return LoginDialog();
+      },
+    );
+  }
+}
+
+class LoginDialog extends StatefulWidget {
+  @override
+  _LoginDialogState createState() => _LoginDialogState();
+}
+
+class _LoginDialogState extends State<LoginDialog> {
+  GlobalKey<FormState> _formKey = GlobalKey();
+  TextEditingController _controller = TextEditingController();
+  bool _isShowError = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: AlertDialog(
+        title: Text("Choose a Beautiful Name"),
+        content: ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            _isShowError
+                ? Text(
+              "Name is beautiful but already taken. Please choose another name.",
+              style: TextStyle(color: Colors.red),
+            )
+                : Container(),
+            TextFormField(
               validator: (text) {
                 if (text.isEmpty || text.trim().length < 5)
                   return "Please enter min 5 letters...";
               },
-              controller: controller,
+              controller: _controller,
               decoration: InputDecoration(hintText: "Beautiful Name"),
             ),
-            actions: <Widget>[
-              Builder(
-                builder: (BuildContext context) => FlatButton(
-                      child: Text("Submit"),
-                      onPressed: () async {
-                        if (!formKey.currentState.validate()) return;
+          ],
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("Submit"),
+            onPressed: () async {
+              if (!_formKey.currentState.validate()) return;
 
-                        QuerySnapshot snapshot = await Firestore.instance
-                            .collection("user")
-                            .where("name", isEqualTo: controller.text)
-                            .limit(1)
-                            .getDocuments();
+              QuerySnapshot snapshot = await Firestore.instance
+                  .collection("user")
+                  .where("name", isEqualTo: _controller.text)
+                  .limit(1)
+                  .getDocuments();
 
-                        if (snapshot.documents.length > 0) {
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                "Name is beautiful but already exists. Please choose another name."),
-                            duration: Duration(seconds: 3),
-                          ));
-                          return;
-                        }
+              if (snapshot.documents.length > 0) {
+                setState(() => _isShowError = true);
+                return;
+              }
 
-                        await auth.updateUser(controller.text);
-                        await Firestore.instance
-                            .collection("user")
-                            .document(auth.currentUser.uid)
-                            .setData({"name": controller.text});
-                        Navigator.of(context).pop(true);
-                      },
-                    ),
-              ),
-              FlatButton(
-                child: Text("Cancel"),
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-              ),
-            ],
+              await auth.updateUser(_controller.text);
+              await Firestore.instance
+                  .collection("user")
+                  .document(auth.currentUser.uid)
+                  .setData({
+                "name": _controller.text,
+                "email": auth.currentUser.email
+              });
+              Navigator.of(context).pop(true);
+            },
           ),
-        );
-      },
+          FlatButton(
+            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+          ),
+        ],
+      ),
     );
   }
 }
