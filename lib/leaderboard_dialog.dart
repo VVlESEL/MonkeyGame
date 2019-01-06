@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:monkeygame/leaderboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:monkeygame/auth.dart' as auth;
+import 'package:monkeygame/choose_name_dialog.dart';
 
 class LeaderboardDialog extends StatefulWidget {
   final int score;
@@ -19,14 +20,69 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Leaderboard"),
-      content: _content,
+      content: Container(
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height * 0.9,
+        child: _content,
+      ),
       actions: <Widget>[
-        FlatButton(
-          child: Text("Submit"),
-          onPressed: () {
-            _updateScore();
+        FutureBuilder(
+          initialData: false,
+          future: auth.checkLogin(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data) {
+                _sendScore();
+                return Text("Score Updated...");
+              } else {
+                return Row(
+                  children: <Widget>[
+                    Text("Login:"),
+                    FlatButton(
+                      onPressed: () async {
+                        bool isLogin = await auth.facebookLogin();
+                        if (isLogin) {
+                          if (await _chooseNameOrContinue()) {
+                            _sendScore();
+                            setState(() => _content = Leaderboard());
+                          }
+                        }
+                      },
+                      child: Image.asset(
+                        "assets/ic_facebook.png",
+                        width: 30.0,
+                        height: 30.0,
+                      ),
+                    ),
+                    FlatButton(
+                      onPressed: () async {
+                        bool isLogin = await auth.googleLogin();
+                        if (isLogin) {
+                          if (await _chooseNameOrContinue()) {
+                            _sendScore();
+                            setState(() => _content = Leaderboard());
+                          }
+                        }
+                      },
+                      child: Image.asset(
+                        "assets/ic_google.png",
+                        width: 30.0,
+                        height: 30.0,
+                      ),
+                    ),
+                  ],
+                );
+              }
+            }
           },
         ),
+
         FlatButton(
           child: Text("Cancel"),
           onPressed: () {
@@ -35,52 +91,6 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
         ),
       ],
     );
-  }
-
-  Future<void> _updateScore() async {
-    bool isLoggedIn = await auth.checkLogin();
-    if (isLoggedIn) {
-      _sendScore();
-    } else {
-      setState(() {
-        _content = Row(
-          children: <Widget>[
-            FlatButton(
-              onPressed: () async {
-                bool isLogin = await auth.facebookLogin();
-                if (isLogin) {
-                  if (await _chooseNameOrContinue()) {
-                    _sendScore();
-                    setState(() => _content = Leaderboard());
-                  }
-                }
-              },
-              child: Image.asset(
-                "assets/ic_facebook.png",
-                width: 30.0,
-                height: 30.0,
-              ),
-            ),
-            FlatButton(
-              onPressed: () async {
-                bool isLogin = await auth.googleLogin();
-                if (isLogin) {
-                  if (await _chooseNameOrContinue()) {
-                    _sendScore();
-                    setState(() => _content = Leaderboard());
-                  }
-                }
-              },
-              child: Image.asset(
-                "assets/ic_google.png",
-                width: 30.0,
-                height: 30.0,
-              ),
-            ),
-          ],
-        );
-      });
-    }
   }
 
   Future<void> _sendScore() async {
@@ -98,83 +108,8 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return LoginDialog();
+        return ChooseNameDialog();
       },
-    );
-  }
-}
-
-class LoginDialog extends StatefulWidget {
-  @override
-  _LoginDialogState createState() => _LoginDialogState();
-}
-
-class _LoginDialogState extends State<LoginDialog> {
-  GlobalKey<FormState> _formKey = GlobalKey();
-  TextEditingController _controller = TextEditingController();
-  bool _isShowError = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: AlertDialog(
-        title: Text("Choose a Beautiful Name"),
-        content: ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            _isShowError
-                ? Text(
-              "Name is beautiful but already taken. Please choose another name.",
-              style: TextStyle(color: Colors.red),
-            )
-                : Container(),
-            TextFormField(
-              validator: (text) {
-                if (text.isEmpty || text.trim().length < 5)
-                  return "Please enter min 5 letters...";
-              },
-              controller: _controller,
-              decoration: InputDecoration(hintText: "Beautiful Name"),
-            ),
-          ],
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("Submit"),
-            onPressed: () async {
-              if (!_formKey.currentState.validate()) return;
-
-              QuerySnapshot snapshot = await Firestore.instance
-                  .collection("user")
-                  .where("name", isEqualTo: _controller.text)
-                  .limit(1)
-                  .getDocuments();
-
-              if (snapshot.documents.length > 0) {
-                setState(() => _isShowError = true);
-                return;
-              }
-
-              await auth.updateUser(_controller.text);
-              await Firestore.instance
-                  .collection("user")
-                  .document(auth.currentUser.uid)
-                  .setData({
-                "name": _controller.text,
-                "email": auth.currentUser.email
-              });
-              Navigator.of(context).pop(true);
-            },
-          ),
-          FlatButton(
-            child: Text("Cancel"),
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-          ),
-        ],
-      ),
     );
   }
 }

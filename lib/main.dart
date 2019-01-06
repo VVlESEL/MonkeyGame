@@ -3,8 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:monkeygame/game.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:monkeygame/auth.dart' as auth;
+import 'package:firebase_admob/firebase_admob.dart';
+import 'package:monkeygame/admob.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  FirebaseAdMob.instance.initialize(appId: getAdMobAppId());
+
+  runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -28,6 +34,22 @@ class Start extends StatefulWidget {
 }
 
 class _StartState extends State<Start> {
+  BannerAd _bannerAd;
+
+  @override
+  void initState() {
+    _bannerAd ??= createBannerAd()
+      ..load().then((loaded) {
+          if (loaded && this.mounted) {
+            _bannerAd
+              ..show(
+                anchorType: AnchorType.bottom,
+              );
+        }
+      });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +86,7 @@ class _StartState extends State<Start> {
                       }),
                   child: Text("Logout"),
                 ),
-          )
+          ),
         ],
       ),
     );

@@ -51,22 +51,12 @@
     		<key>CFBundleURLSchemes</key>
     		<array>
     			<string>com.googleusercontent.apps.612736683515-mra13a97p7bpnv9ihreerfg8mq5hj64p</string>
+    	        <string>fb512126995945011</string>
     		</array>
     	</dict>
     </array>
 
     <!-- Facebook Sign-in Section -->
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <!-- Replace "000000000000" with your Facebook App ID here. -->
-                <string>fb512126995945011</string>
-            </array>
-        </dict>
-    </array>
-
     <key>FacebookAppID</key>
 
     <!-- Replace "000000000000" with your Facebook App ID here. -->

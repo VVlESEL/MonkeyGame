@@ -36,6 +36,11 @@
             </intent-filter>
         </activity>
 
+        <!-- Admob -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4539817448561450~1829202203"/>
+
         <!-- Facebook Sign-in Section -->
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>

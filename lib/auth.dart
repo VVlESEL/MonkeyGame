@@ -8,16 +8,17 @@ FirebaseUser currentUser;
 
 ///Asynchronously checks if the user is currently logged in.
 Future<bool> checkLogin() async {
-  await FirebaseAuth.instance.currentUser().then((user) {
-    if (user != null) {
-      print("checkLogin: User ${user.displayName} is logged in");
-      currentUser = user;
-    } else
-      print("checkLogin: User is NOT logged in");
-  }).catchError((error) {
-    print("checkLogin: Something went wrong! ${error.toString()}");
-    throw error;
-  });
+  if(currentUser == null) {
+    await FirebaseAuth.instance.currentUser().then((user) {
+      if (user != null) {
+        print("checkLogin: User ${user.displayName} is logged in");
+        currentUser = user;
+      } else
+        print("checkLogin: User is NOT logged in");
+    }).catchError((error) {
+      print("checkLogin: Something went wrong! ${error.toString()}");
+    });
+  }
   return currentUser != null;
 }
 
@@ -27,7 +28,6 @@ Future<bool> logout() async {
     currentUser = null;
   }).catchError((error) {
     print("logout: Something went wrong! ${error.toString()}");
-    throw error;
   });
   return currentUser == null;
 }
@@ -39,7 +39,6 @@ Future<void> updateUser(String name) async {
     print("updateUser: User displayName is $name");
   }).catchError((error) {
     print("updateUser: Something went wrong! ${error.toString()}");
-    throw error;
   });
   return checkLogin();
 }
@@ -47,31 +46,26 @@ Future<void> updateUser(String name) async {
 Future<bool> facebookLogin() async {
   final facebookLogin = FacebookLogin();
 
-  await facebookLogin
-      .logInWithReadPermissions(['email'])
-      .then(await (result) async {
-        switch (result.status) {
-          case FacebookLoginStatus.loggedIn:
-            await FirebaseAuth.instance
-                .signInWithFacebook(accessToken: result.accessToken.token)
-                .then((user) {
-              currentUser = user;
-              print(
-                  "facebookLogin: ${user.displayName} (${user.uid}) signed in");
-            });
-            break;
-          case FacebookLoginStatus.cancelledByUser:
-            print("canceled");
-            break;
-          case FacebookLoginStatus.error:
-            print(result.errorMessage);
-            break;
-        }
-      })
-      .catchError((error) {
-        print("facebookLogin: Something went wrong! ${error.toString()}");
-        throw error;
-      });
+  await facebookLogin.logInWithReadPermissions(['email']).then((result) async {
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        await FirebaseAuth.instance
+            .signInWithFacebook(accessToken: result.accessToken.token)
+            .then((user) {
+          currentUser = user;
+          print("facebookLogin: ${user.displayName} (${user.uid}) signed in");
+        });
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("canceled");
+        break;
+      case FacebookLoginStatus.error:
+        print(result.errorMessage);
+        break;
+    }
+  }).catchError((error) {
+    print("facebookLogin: Something went wrong! ${error.toString()}");
+  });
 
   return currentUser != null;
 }
@@ -79,21 +73,19 @@ Future<bool> facebookLogin() async {
 Future<bool> googleLogin() async {
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  await googleSignIn
-      .signIn()
-      .then(await (googleUser) async {
-        GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-        FirebaseUser user = await FirebaseAuth.instance.signInWithGoogle(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
+  await googleSignIn.signIn().then((googleUser) async {
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    FirebaseUser user = await FirebaseAuth.instance.signInWithGoogle(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    ).catchError((error) {
+      print("signInWithGoogle: Somthing went wrong! ${error.toString()}");
+    });
 
-        currentUser = user;
-        print("googleLogin: ${user.displayName} (${user.uid}) signed in");
-      })
-      .catchError((error) {
+    currentUser = user;
+    print("googleLogin: ${user.displayName} (${user.uid}) signed in");
+  }).catchError((error) {
     print("googleLogin: Somthing went wrong! ${error.toString()}");
-    throw error;
   });
 
   return currentUser != null;
