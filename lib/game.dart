@@ -64,7 +64,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
               _baseSpeed++;
               _newInfo("Banana Speed Increased!");
             }
-            if(_secondsPassed % 5 == 0)_addCoconut();
+            if (_secondsPassed % 5 == 0) _addCoconut();
             _addBanana();
             setState(() {});
           } else if (!_isGameOver) {
@@ -148,7 +148,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     math.Random random = math.Random();
     double size = 30.0 + random.nextInt(20);
     double margin =
-    random.nextInt((Game.screenWidth - size).toInt()).toDouble();
+        random.nextInt((Game.screenWidth - size).toInt()).toDouble();
     double speed = _baseSpeed + random.nextInt(15);
 
     FallingObject banana = FallingObject(
@@ -180,7 +180,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     math.Random random = math.Random();
     double size = 30.0;
     double margin =
-    random.nextInt((Game.screenWidth - size).toInt()).toDouble();
+        random.nextInt((Game.screenWidth - size).toInt()).toDouble();
     double speed = _baseSpeed + random.nextInt(15);
 
     FallingObject coconut = FallingObject(

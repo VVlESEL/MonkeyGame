@@ -15,6 +15,12 @@
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/cloud_firestore/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/cloud_firestore/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/cloud_firestore/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_admob/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_admob/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_admob/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_admob/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_admob/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_admob/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/build" />
@@ -39,6 +45,12 @@
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_facebook_login/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_facebook_login/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_facebook_login/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/google_sign_in/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/google_sign_in/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/google_sign_in/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/google_sign_in/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/google_sign_in/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/google_sign_in/example/build" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />
