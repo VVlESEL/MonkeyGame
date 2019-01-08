@@ -33,11 +33,21 @@ class MyApp extends StatelessWidget {
         '/game': (BuildContext context) => Game(),
       },
       theme: ThemeData(
+        primaryColor: Color(0xffBF844C),
         accentColor: Color(0xffBF844C),
       ),
     );
   }
 }
+
+/**
+ *
+ *
+ *
+ * TO DO : Sound
+ *
+ *
+ */
 
 class Start extends StatefulWidget {
   @override
