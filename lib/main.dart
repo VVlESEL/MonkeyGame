@@ -7,6 +7,7 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:monkeygame/admob.dart';
 import 'dart:async';
 import 'package:monkeygame/background.dart';
+import 'package:monkeygame/leaderboard_dialog.dart';
 
 void main() {
   FirebaseAdMob.instance.initialize(appId: getAdMobAppId());
@@ -103,7 +104,18 @@ class _StartState extends State<Start> {
                     child: Text("Change Name", style: _textStyle()),
                   ),
                   FlatButton(
-                    onPressed: () => print("leaderboard pressed"),
+                    onPressed: () => showDialog<void>(
+                          context: context,
+                          barrierDismissible: false, // user must tap button!
+                          builder: (BuildContext context) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                  dialogBackgroundColor:
+                                      const Color(0xffBF844C)),
+                              child: LeaderboardDialog(),
+                            );
+                          },
+                        ),
                     child: Text("Leaderboard", style: _textStyle()),
                   ),
                   Builder(

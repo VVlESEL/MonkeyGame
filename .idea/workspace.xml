@@ -9,13 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9498996f-61cb-4cf9-9f06-29a3255464ea" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/choose_name_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/choose_name_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/game.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/game.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/leaderboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/leaderboard.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/leaderboard_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/leaderboard_dialog.dart" afterDir="false" />
-    </list>
+    <list default="true" id="9498996f-61cb-4cf9-9f06-29a3255464ea" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
     <ignored path="$PROJECT_DIR$/.pub/" />
@@ -29,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="main.dart" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.dart" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/main.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="33" column="3" lean-forward="true" selection-start-line="33" selection-start-column="3" selection-end-line="33" selection-end-column="3" />
+            <state relative-caret-position="381">
+              <caret line="95" lean-forward="true" selection-start-line="95" selection-end-line="95" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -45,7 +39,7 @@
         <entry file="file://$PROJECT_DIR$/lib/game.dart">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-370">
-              <caret line="45" column="24" lean-forward="true" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
+              <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -65,11 +59,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="choose_name_dialog.dart" pinned="false" current-in-tab="true">
+      <file leaf-file-name="choose_name_dialog.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/choose_name_dialog.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="40" column="95" selection-start-line="40" selection-start-column="95" selection-end-line="40" selection-end-column="95" />
+            <state relative-caret-position="326">
+              <caret line="54" column="21" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -81,7 +75,7 @@
         <entry file="file://$PROJECT_DIR$/lib/leaderboard_dialog.dart">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="360">
-              <caret line="24" column="78" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="24" selection-end-column="78" />
+              <caret line="24" column="78" selection-start-line="22" selection-start-column="21" selection-end-line="24" selection-end-column="78" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -198,11 +192,11 @@
         <option value="$PROJECT_DIR$/lib/background.dart" />
         <option value="$PROJECT_DIR$/lib/falling_object.dart" />
         <option value="$PROJECT_DIR$/pubspec.yaml" />
-        <option value="$PROJECT_DIR$/lib/main.dart" />
         <option value="$PROJECT_DIR$/lib/leaderboard.dart" />
         <option value="$PROJECT_DIR$/lib/leaderboard_dialog.dart" />
         <option value="$PROJECT_DIR$/lib/game.dart" />
         <option value="$PROJECT_DIR$/lib/choose_name_dialog.dart" />
+        <option value="$PROJECT_DIR$/lib/main.dart" />
       </list>
     </option>
   </component>
@@ -369,23 +363,23 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5026846" side_tool="true" weight="0.36467236" />
       <window_info anchor="bottom" id="Dart Analysis" order="7" weight="0.32779098" />
       <window_info anchor="right" id="Flutter Outline" order="3" />
-      <window_info anchor="bottom" id="Logcat" order="7" weight="0.4784689" />
+      <window_info anchor="bottom" id="Logcat" order="7" weight="0.47743466" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info id="Structure" order="1" sideWeight="0.5026643" side_tool="true" weight="0.17765568" />
+      <window_info id="Structure" order="1" sideWeight="0.50476193" side_tool="true" weight="0.17765568" />
       <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39832535" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39786223" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32894737" />
       <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.49932885" weight="0.32541567" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Flutter Performance" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49731544" visible="true" weight="0.35985747" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49731544" weight="0.35985747" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32894737" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.25178146" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.25178146" />
       <window_info id="Captures" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4973357" visible="true" weight="0.17765568" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4952381" visible="true" weight="0.17765568" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" id="Flutter Inspector" order="3" weight="0.32975295" />
@@ -675,20 +669,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/main.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="33" column="3" lean-forward="true" selection-start-line="33" selection-start-column="3" selection-end-line="33" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/game.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-370">
-          <caret line="45" column="24" lean-forward="true" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
+          <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
@@ -698,7 +682,7 @@
     <entry file="file://$PROJECT_DIR$/lib/leaderboard_dialog.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
-          <caret line="24" column="78" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="24" selection-end-column="78" />
+          <caret line="24" column="78" selection-start-line="22" selection-start-column="21" selection-end-line="24" selection-end-column="78" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -707,8 +691,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/choose_name_dialog.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="40" column="95" selection-start-line="40" selection-start-column="95" selection-end-line="40" selection-end-column="95" />
+        <state relative-caret-position="326">
+          <caret line="54" column="21" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/main.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="95" lean-forward="true" selection-start-line="95" selection-end-line="95" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
