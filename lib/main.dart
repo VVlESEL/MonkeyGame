@@ -72,20 +72,20 @@ class _StartState extends State<Start> {
           padding: const EdgeInsets.only(bottom: 50.0),
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            body: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                  height: 100.0,
-                  width: 100.0,
-                  child: FlareActor(
-                    "assets/monkey.flr",
-                    animation: "wave",
+            body: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                    height: 100.0,
+                    width: 100.0,
+                    child: FlareActor(
+                      "assets/monkey.flr",
+                      animation: "wave",
+                    ),
                   ),
-                ),
-                Center(
-                  child: FlatButton(
+                  FlatButton(
                     onPressed: () {
                       _isCurrentRoute = false;
                       if (_isBannerAdShown) {
@@ -98,23 +98,31 @@ class _StartState extends State<Start> {
                     },
                     child: Text("Start Game", style: _textStyle()),
                   ),
-                ),
-                Builder(
-                  builder: (BuildContext context) => FlatButton(
-                        onPressed: () => auth.logout().then((b) {
-                              if (b) {
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                                  backgroundColor: Colors.transparent,
-                                  content: Text("Logged out...",
-                                      style: _textStyle()),
-                                  duration: Duration(seconds: 2),
-                                ));
-                              }
-                            }),
-                        child: Text("Logout", style: _textStyle()),
-                      ),
-                ),
-              ],
+                  FlatButton(
+                    onPressed: () => print("change name pressed"),
+                    child: Text("Change Name", style: _textStyle()),
+                  ),
+                  FlatButton(
+                    onPressed: () => print("leaderboard pressed"),
+                    child: Text("Leaderboard", style: _textStyle()),
+                  ),
+                  Builder(
+                    builder: (BuildContext context) => FlatButton(
+                          onPressed: () => auth.logout().then((b) {
+                                if (b) {
+                                  Scaffold.of(context).showSnackBar(SnackBar(
+                                    backgroundColor: Colors.transparent,
+                                    content: Text("Logged out...",
+                                        style: _textStyle()),
+                                    duration: Duration(seconds: 2),
+                                  ));
+                                }
+                              }),
+                          child: Text("Logout", style: _textStyle()),
+                        ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

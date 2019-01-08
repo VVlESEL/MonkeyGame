@@ -17,7 +17,11 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
     return Form(
       key: _formKey,
       child: AlertDialog(
-        title: Text("Choose a Beautiful Name"),
+        title: Text(
+          "Choose a Beautiful Name",
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 26.0),
+        ),
         content: Container(
           width: MediaQuery.of(context).size.width * 0.9,
           height: MediaQuery.of(context).size.height * 0.9,
@@ -26,16 +30,22 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
             children: <Widget>[
               _isShowError
                   ? Text(
-                "Name is beautiful but already taken. Please choose another name.",
-                style: TextStyle(color: Colors.red),
-              )
+                      "Name is beautiful but already taken. Please choose another name.",
+                      style: TextStyle(color: Colors.red),
+                    )
                   : Container(),
               TextFormField(
                 validator: (text) {
-                  if (text.isEmpty || text.trim().length < 5)
-                    return "Please enter min 5 letters...";
+                  if (text.isEmpty ||
+                      text.trim().length < 3 ||
+                      text.trim().length > 15)
+                    return "Please enter between 3 and 15 letters...";
                 },
                 controller: _controller,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0),
                 decoration: InputDecoration(hintText: "Beautiful Name"),
               ),
             ],

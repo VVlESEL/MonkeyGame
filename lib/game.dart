@@ -57,24 +57,29 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
         if (mounted &&
             Game.lifecycleState != AppLifecycleState.paused &&
             Game.lifecycleState != AppLifecycleState.inactive) {
-          if (!_isGameOver && _secondsLeft > 0) {
+          if (!_isGameOver) {
             _secondsLeft--;
             _secondsPassed++;
-            if (_secondsPassed % 10 == 0) {
-              _baseSpeed++;
-              _newInfo("Banana Speed Increased!");
-            }
-            if (_secondsPassed % 5 == 0) _addCoconut();
-            _addBanana();
-            setState(() {});
-          } else if (!_isGameOver) {
-            setState(() {
-              _isGameOver = true;
-              _bananaList.clear();
-              _coconutList.clear();
+            if(_secondsLeft > 1) {
+              if ((_secondsPassed <= 40 && _secondsPassed % 10 == 0) ||
+                  (_secondsPassed <= 130 && _secondsPassed % 20 == 0) ||
+                  (_secondsPassed >= 130 && _secondsPassed % 30 == 0)) {
+                _baseSpeed++;
+                _newInfo("Banana Speed Increased!");
+              }
+              if (_secondsPassed % 5 == 0) _addCoconut();
+              _addBanana();
+              setState(() {});
+            } else {
+              setState(() {
+                _isGameOver = true;
+                _bananaList.clear();
+                _coconutList.clear();
+              });
               _showLeaderboard();
-            });
-          }
+            }
+          };
+
         }
       });
     }
@@ -218,8 +223,11 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return LeaderboardDialog(
-          score: _bananaCounter,
+        return Theme(
+          data: Theme.of(context).copyWith(dialogBackgroundColor: const Color(0xffBF844C)),
+          child: LeaderboardDialog(
+            score: _bananaCounter,
+          ),
         );
       },
     );

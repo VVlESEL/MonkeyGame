@@ -30,12 +30,46 @@ class _LeaderboardState extends State<Leaderboard> {
 
   Widget _buildListItem(
       BuildContext context, int rank, DocumentSnapshot document) {
+
+    Color color = Colors.brown.shade800;
+    switch(rank){
+      case 1: color = Colors.yellow; break;
+      case 2:
+      case 3:
+      case 4:
+      case 5: color = Colors.orangeAccent; break;
+      case 6:
+      case 7:
+      case 8:
+      case 9:
+      case 10: color = Colors.deepOrangeAccent; break;
+    }
+
     return ListTile(
       leading: CircleAvatar(
-        child: Text(rank.toString()),
+        backgroundColor: color,
+        child: Text(
+          rank.toString(),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
-      title: Text(document["name"].toString()),
-      trailing: Text(document["score"].toString()),
+      title: Text(document["name"].toString(),
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+        ),),
+      trailing: Text(document["score"].toString(),
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+        ),),
     );
   }
 }
