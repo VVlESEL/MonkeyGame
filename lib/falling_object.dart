@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:monkeygame/game.dart';
-import 'package:monkeygame/monkey.dart';
 
 typedef void MyCallback(FallingObject banana);
 class FallingObject extends StatefulWidget {

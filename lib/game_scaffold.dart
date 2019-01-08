@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:monkeygame/game_appbar.dart';
+import 'package:monkeygame/background.dart';
 
 class GameScaffold extends StatelessWidget {
   final GameAppBar appBar;
@@ -11,17 +12,7 @@ class GameScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/img_jungle.png"),
-              fit: BoxFit.fill,
-            ),
-          ),
-          child: Container(
-            color: Colors.black.withOpacity(0.30),
-          ),
-        ),
+        Background(imgResource: "assets/img_jungle.png"),
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: appBar,
