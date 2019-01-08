@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:monkeygame/choose_name_dialog.dart';
 import 'package:monkeygame/game.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:monkeygame/auth.dart' as auth;
@@ -125,10 +126,31 @@ class _StartState extends State<Start> {
                     },
                     child: Text("Leaderboard", style: _textStyle()),
                   ),
+                  /*
                   FlatButton(
-                    onPressed: () => print("change name pressed"),
+                    onPressed: () {
+                      _isCurrentRoute = false;
+                      if (_isBannerAdShown) {
+                        Timer(const Duration(milliseconds: 250), () {
+                          _bannerAd?.dispose();
+                        });
+                      }
+
+                      showDialog<bool>(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext context) {
+                          return Theme(
+                            data: Theme.of(context).copyWith(
+                                dialogBackgroundColor: const Color(0xffBF844C)),
+                            child: ChooseNameDialog(),
+                          );
+                        },
+                      );
+                    },
                     child: Text("Change Name", style: _textStyle()),
                   ),
+                  */
                   Builder(
                     builder: (BuildContext context) => FlatButton(
                           onPressed: () => auth.logout().then((b) {
