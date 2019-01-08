@@ -151,36 +151,24 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
         .collection("leaderboard")
         .document(auth.currentUser.uid);
 
-    return Firestore.instance.runTransaction((transaction) {
-      print("in1");
-      transaction
-          .get(ref)
-          .then((doc) {
-            print("in2");
-            if (!doc.exists) {
-              print("in3");
-              transaction.set(ref, {
-                "name": auth.currentUser.displayName,
-                "score": widget.score
-              });
-            } else {
-              print("in4");
-              int oldScore = doc.data["score"];
-              if (widget.score > oldScore) {
-                transaction.update(ref, {"score": widget.score});
-              }
-            }
-          })
-          .then((_) => print("_sendScore: Transaction succesfully comitted"))
-          .catchError((error) => print("_sendScore: Transaction failed"));
-    });
+    DocumentSnapshot doc = await ref.get();
+    if (!doc.exists) {
+      ref.setData(
+          {"name": auth.currentUser.displayName, "score": widget.score});
+    } else {
+      int oldScore = doc.data["score"];
+      if (widget.score >= oldScore) {
+        ref.updateData(
+            {"name": auth.currentUser.displayName, "score": widget.score});
+      }
+    }
   }
 
   Future<bool> _chooseNameOrContinue() async {
     if (auth.currentUser.metadata.creationTimestamp !=
         auth.currentUser.metadata.lastSignInTimestamp) return true;
 
-    return showDialog<bool>(
+    return await showDialog<bool>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {

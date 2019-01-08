@@ -53,7 +53,13 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
         ),
         actions: <Widget>[
           FlatButton(
-            child: Text("Submit"),
+            child: Text(
+              "Submit",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0),
+            ),
             onPressed: () async {
               if (!_formKey.currentState.validate()) return;
 
@@ -80,7 +86,13 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
             },
           ),
           FlatButton(
-            child: Text("Cancel"),
+            child: Text(
+              "Cancel",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0),
+            ),
             onPressed: () {
               Navigator.of(context).pop(false);
             },

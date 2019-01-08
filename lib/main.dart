@@ -31,6 +31,9 @@ class MyApp extends StatelessWidget {
         '/home': (BuildContext context) => Start(),
         '/game': (BuildContext context) => Game(),
       },
+      theme: ThemeData(
+        accentColor: Color(0xffBF844C),
+      ),
     );
   }
 }

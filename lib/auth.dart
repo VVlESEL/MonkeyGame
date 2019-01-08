@@ -8,17 +8,15 @@ FirebaseUser currentUser;
 
 ///Asynchronously checks if the user is currently logged in.
 Future<bool> checkLogin() async {
-  if(currentUser == null) {
-    await FirebaseAuth.instance.currentUser().then((user) {
-      if (user != null) {
-        print("checkLogin: User ${user.displayName} is logged in");
-        currentUser = user;
-      } else
-        print("checkLogin: User is NOT logged in");
-    }).catchError((error) {
-      print("checkLogin: Something went wrong! ${error.toString()}");
-    });
-  }
+  await FirebaseAuth.instance.currentUser().then((user) {
+    if (user != null) {
+      print("checkLogin: User ${user.displayName} is logged in");
+      currentUser = user;
+    } else
+      print("checkLogin: User is NOT logged in");
+  }).catchError((error) {
+    print("checkLogin: Something went wrong! ${error.toString()}");
+  });
   return currentUser != null;
 }
 
@@ -40,7 +38,7 @@ Future<void> updateUser(String name) async {
   }).catchError((error) {
     print("updateUser: Something went wrong! ${error.toString()}");
   });
-  return checkLogin();
+  return await checkLogin();
 }
 
 Future<bool> facebookLogin() async {
@@ -75,10 +73,12 @@ Future<bool> googleLogin() async {
 
   await googleSignIn.signIn().then((googleUser) async {
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    FirebaseUser user = await FirebaseAuth.instance.signInWithGoogle(
+    FirebaseUser user = await FirebaseAuth.instance
+        .signInWithGoogle(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
-    ).catchError((error) {
+    )
+        .catchError((error) {
       print("signInWithGoogle: Somthing went wrong! ${error.toString()}");
     });
 
