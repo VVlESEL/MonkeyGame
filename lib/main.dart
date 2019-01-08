@@ -104,18 +104,26 @@ class _StartState extends State<Start> {
                     child: Text("Change Name", style: _textStyle()),
                   ),
                   FlatButton(
-                    onPressed: () => showDialog<void>(
-                          context: context,
-                          barrierDismissible: false, // user must tap button!
-                          builder: (BuildContext context) {
-                            return Theme(
-                              data: Theme.of(context).copyWith(
-                                  dialogBackgroundColor:
-                                      const Color(0xffBF844C)),
-                              child: LeaderboardDialog(),
-                            );
-                          },
-                        ),
+                    onPressed: () {
+                      _isCurrentRoute = false;
+                      if (_isBannerAdShown) {
+                        Timer(const Duration(milliseconds: 250), () {
+                          _bannerAd?.dispose();
+                        });
+                      }
+
+                      showDialog<void>(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext context) {
+                          return Theme(
+                            data: Theme.of(context).copyWith(
+                                dialogBackgroundColor: const Color(0xffBF844C)),
+                            child: LeaderboardDialog(),
+                          );
+                        },
+                      );
+                    },
                     child: Text("Leaderboard", style: _textStyle()),
                   ),
                   Builder(
