@@ -100,10 +100,6 @@ class _StartState extends State<Start> {
                     child: Text("Start Game", style: _textStyle()),
                   ),
                   FlatButton(
-                    onPressed: () => print("change name pressed"),
-                    child: Text("Change Name", style: _textStyle()),
-                  ),
-                  FlatButton(
                     onPressed: () {
                       _isCurrentRoute = false;
                       if (_isBannerAdShown) {
@@ -125,6 +121,10 @@ class _StartState extends State<Start> {
                       );
                     },
                     child: Text("Leaderboard", style: _textStyle()),
+                  ),
+                  FlatButton(
+                    onPressed: () => print("change name pressed"),
+                    child: Text("Change Name", style: _textStyle()),
                   ),
                   Builder(
                     builder: (BuildContext context) => FlatButton(

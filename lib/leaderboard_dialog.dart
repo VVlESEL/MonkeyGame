@@ -147,10 +147,33 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
   }
 
   Future<void> _sendScore() async {
-    return Firestore.instance
+    DocumentReference ref = Firestore.instance
         .collection("leaderboard")
-        .document(auth.currentUser.uid)
-        .setData({"name": auth.currentUser.displayName, "score": widget.score});
+        .document(auth.currentUser.uid);
+
+    return Firestore.instance.runTransaction((transaction) {
+      print("in1");
+      transaction
+          .get(ref)
+          .then((doc) {
+            print("in2");
+            if (!doc.exists) {
+              print("in3");
+              transaction.set(ref, {
+                "name": auth.currentUser.displayName,
+                "score": widget.score
+              });
+            } else {
+              print("in4");
+              int oldScore = doc.data["score"];
+              if (widget.score > oldScore) {
+                transaction.update(ref, {"score": widget.score});
+              }
+            }
+          })
+          .then((_) => print("_sendScore: Transaction succesfully comitted"))
+          .catchError((error) => print("_sendScore: Transaction failed"));
+    });
   }
 
   Future<bool> _chooseNameOrContinue() async {

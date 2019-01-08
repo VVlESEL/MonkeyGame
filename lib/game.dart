@@ -60,7 +60,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
           if (!_isGameOver) {
             _secondsLeft--;
             _secondsPassed++;
-            if(_secondsLeft > 1) {
+            if(_secondsLeft > 0) {
               if ((_secondsPassed <= 40 && _secondsPassed % 10 == 0) ||
                   (_secondsPassed <= 130 && _secondsPassed % 20 == 0) ||
                   (_secondsPassed >= 130 && _secondsPassed % 30 == 0)) {
