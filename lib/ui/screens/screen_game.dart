@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:firebase_admob/firebase_admob.dart';
+import 'package:monkeygame/utils/admob.dart';
 import 'package:flutter/material.dart';
 import 'package:monkeygame/ui/falling_object.dart';
 import 'package:monkeygame/ui/game_appbar.dart';
@@ -27,13 +29,14 @@ class _GameState extends State<Game> {
   int _secondsPassed = 0;
   String _info = "";
   bool _isGameOver = false;
+  bool _isAdOption = true;
 
   @override
   void initState() {
     super.initState();
 
     if (_timer == null) {
-      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
         if (mounted &&
             globals.lifecycleState != AppLifecycleState.paused &&
             globals.lifecycleState != AppLifecycleState.inactive) {
@@ -56,7 +59,31 @@ class _GameState extends State<Game> {
                 _bananaList.clear();
                 _coconutList.clear();
               });
-              _showLeaderboard();
+              if (await _showLeaderboard()) {
+                _newInfo("Loading ad...");
+                await RewardedVideoAd.instance.load(
+                  adUnitId: getAdMobRewardAdUnitId(),
+                  targetingInfo: targetingInfo,
+                );
+                RewardedVideoAd.instance.listener = (RewardedVideoAdEvent event,
+                    {String rewardType, int rewardAmount}) {
+                  if (event == RewardedVideoAdEvent.loaded) {
+                    RewardedVideoAd.instance.show();
+                    setState(() => _info = "");
+                  }
+                  else if (event == RewardedVideoAdEvent.rewarded) {
+                    setState(() {
+                      _isAdOption = false;
+                      _isGameOver = false;
+                      _secondsLeft += 5;
+                    });
+                  } else if (event == RewardedVideoAdEvent.failedToLoad){
+                    _newInfo("Unable To Load Ad...");
+                  } else if (event == RewardedVideoAdEvent.closed) {
+                    if(_isGameOver) _newInfo("No Cheating!");
+                  }
+                };
+              }
             }
           }
         }
@@ -184,8 +211,8 @@ class _GameState extends State<Game> {
     }
   }
 
-  Future<void> _showLeaderboard() async {
-    return showDialog<void>(
+  Future<bool> _showLeaderboard() async {
+    return showDialog<bool>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
@@ -194,6 +221,7 @@ class _GameState extends State<Game> {
               .copyWith(dialogBackgroundColor: globals.baseColor),
           child: LeaderboardDialog(
             score: _bananaCounter,
+            adOption: _isAdOption,
           ),
         );
       },

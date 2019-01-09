@@ -6,8 +6,9 @@ import 'package:monkeygame/ui/dialogs/dialog_name.dart';
 
 class LeaderboardDialog extends StatefulWidget {
   final int score;
+  final bool adOption;
 
-  LeaderboardDialog({this.score = 0});
+  LeaderboardDialog({this.score = 0, this.adOption = false});
 
   @override
   _LeaderboardDialogState createState() => _LeaderboardDialogState();
@@ -104,6 +105,30 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
                         }
                       },
                     ),
+                    !widget.adOption
+                        ? Container()
+                        : Container(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Extra Seconds:",
+                                  style: Theme.of(context).textTheme.display2,
+                                ),
+                                FlatButton(
+                                  child: Icon(
+                                    Icons.access_time,
+                                    color: Colors.white,
+                                    size: 34.0,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: Row(
@@ -148,6 +173,33 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
       if (widget.score >= oldScore) {
         ref.updateData(
             {"name": auth.currentUser.displayName, "score": widget.score});
+
+        if (widget.score > oldScore) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    "New Highscore!!",
+                    style: Theme.of(context).textTheme.headline,
+                  ),
+                  content: ListTile(
+                    leading: Icon(
+                      Icons.plus_one,
+                      size: 40.0,
+                      color: Theme.of(context).accentIconTheme.color,
+                    ),
+                    title: Text("That was your best run. Here is a cake:",
+                        style: Theme.of(context).textTheme.display3),
+                    trailing: Icon(
+                      Icons.cake,
+                      size: 60.0,
+                      color: Theme.of(context).accentIconTheme.color,
+                    ),
+                  ),
+                );
+              });
+        }
       }
     }
   }
