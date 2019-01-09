@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:monkeygame/game.dart';
+import 'package:monkeygame/globals.dart' as globals;
 
 typedef void MyCallback(FallingObject banana);
 class FallingObject extends StatefulWidget {
@@ -60,8 +61,8 @@ class _FallingObjectState extends State<FallingObject> {
     if (_animation == null) _animation = widget.idleAnimation;
     if (_timer == null)
       _timer = Timer.periodic(Duration(milliseconds: 40), (timer) {
-        if (Game.lifecycleState != AppLifecycleState.paused &&
-            Game.lifecycleState != AppLifecycleState.inactive) {
+        if (globals.lifecycleState != AppLifecycleState.paused &&
+            globals.lifecycleState != AppLifecycleState.inactive) {
           update(context);
         }
       });
@@ -85,15 +86,15 @@ class _FallingObjectState extends State<FallingObject> {
   void update(BuildContext context) {
     if (_animation == widget.idleAnimation) {
       _marginTop += widget.speed;
-      _marginTop = math.min(_marginTop, Game.screenHeight - widget.height);
+      _marginTop = math.min(_marginTop, globals.screenHeight - widget.height);
 
-      if (_marginTop > Game.screenHeight - Game.monkeyHeight - widget.height &&
-          widget.marginLeft + widget.width > Game.monkeyX &&
-          widget.marginLeft < Game.monkeyX + Game.monkeyWidth) {
+      if (_marginTop > globals.screenHeight - globals.monkeyHeight - widget.height &&
+          widget.marginLeft + widget.width > globals.monkeyX &&
+          widget.marginLeft < globals.monkeyX + globals.monkeyWidth) {
         _animation = widget.hitMonkeyAnimation;
         widget.onHitMonkey(widget);
         Timer(Duration(seconds: 1), () => widget.onFaded(widget));
-      } else if (_marginTop >= Game.screenHeight - widget.height) {
+      } else if (_marginTop >= globals.screenHeight - widget.height) {
         _animation = widget.hitGroundAnimation;
         Timer(Duration(seconds: 1), () => widget.onFaded(widget));
       }

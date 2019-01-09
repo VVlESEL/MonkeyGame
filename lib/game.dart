@@ -10,34 +10,13 @@ import 'package:monkeygame/leaderboard_dialog.dart';
 import 'package:monkeygame/globals.dart' as globals;
 
 class Game extends StatefulWidget {
-  ///lifecycle state of the app
-  static AppLifecycleState lifecycleState;
-
-  ///height of visible game stack
-  static double screenHeight;
-
-  ///width of visible game stack
-  static double screenWidth;
-
-  ///current x value of the monkey
-  static double monkeyX = 100.0;
-
-  ///state of the monkey
-  static bool monkeyIsDizzy = false;
-
-  ///height of the monkey
-  static final double monkeyHeight = 80.0;
-
-  ///width of the monkey
-  static final double monkeyWidth = 80.0;
-
   Game({Key key}) : super(key: key);
 
   @override
   _GameState createState() => _GameState();
 }
 
-class _GameState extends State<Game> with WidgetsBindingObserver {
+class _GameState extends State<Game> {
   Timer _timer;
   MonkeyMovement _moving = MonkeyMovement.WAIT;
   List<Widget> _bananaList = List();
@@ -56,12 +35,12 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     if (_timer == null) {
       _timer = Timer.periodic(Duration(seconds: 1), (timer) {
         if (mounted &&
-            Game.lifecycleState != AppLifecycleState.paused &&
-            Game.lifecycleState != AppLifecycleState.inactive) {
+            globals.lifecycleState != AppLifecycleState.paused &&
+            globals.lifecycleState != AppLifecycleState.inactive) {
           if (!_isGameOver) {
             _secondsLeft--;
             _secondsPassed++;
-            if(_secondsLeft > 0) {
+            if (_secondsLeft > 0) {
               if ((_secondsPassed <= 40 && _secondsPassed % 10 == 0) ||
                   (_secondsPassed <= 130 && _secondsPassed % 20 == 0) ||
                   (_secondsPassed >= 130 && _secondsPassed % 30 == 0)) {
@@ -79,24 +58,16 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
               });
               _showLeaderboard();
             }
-          };
-
+          }
         }
       });
     }
-    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     _timer?.cancel();
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    Game.lifecycleState = state;
   }
 
   @override
@@ -104,7 +75,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     return GestureDetector(
       onPanUpdate: (details) {
         setState(() {
-          _moving = details.globalPosition.dx > Game.screenWidth / 2
+          _moving = details.globalPosition.dx > globals.screenWidth / 2
               ? MonkeyMovement.RIGHT
               : MonkeyMovement.LEFT;
         });
@@ -117,8 +88,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
         ),
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            Game.screenHeight = constraints.maxHeight;
-            Game.screenWidth = constraints.maxWidth;
+            globals.screenHeight = constraints.maxHeight;
+            globals.screenWidth = constraints.maxWidth;
             return Stack(
               children: _bananaList +
                   _coconutList +
@@ -126,17 +97,15 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: Monkey(
-                        height: Game.monkeyHeight,
-                        width: Game.monkeyWidth,
+                        height: globals.monkeyHeight,
+                        width: globals.monkeyWidth,
                         movement: _moving,
                         speed: 10,
                       ),
                     ),
                     Center(
-                      child: Text(
-                        _info,
-                        style: Theme.of(context).textTheme.display2
-                      ),
+                      child: Text(_info,
+                          style: Theme.of(context).textTheme.display2),
                     ),
                   ]),
             );
@@ -150,7 +119,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     math.Random random = math.Random();
     double size = 30.0 + random.nextInt(20);
     double margin =
-        random.nextInt((Game.screenWidth - size).toInt()).toDouble();
+        random.nextInt((globals.screenWidth - size).toInt()).toDouble();
     double speed = _baseSpeed + random.nextInt(15);
 
     FallingObject banana = FallingObject(
@@ -182,7 +151,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     math.Random random = math.Random();
     double size = 30.0;
     double margin =
-        random.nextInt((Game.screenWidth - size).toInt()).toDouble();
+        random.nextInt((globals.screenWidth - size).toInt()).toDouble();
     double speed = _baseSpeed + random.nextInt(15);
 
     FallingObject coconut = FallingObject(
@@ -197,10 +166,10 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
       speed: speed,
       onFaded: (coconut) {
         _coconutList.remove(coconut);
-        Game.monkeyIsDizzy = false;
+        globals.monkeyIsDizzy = false;
       },
       onHitMonkey: (coconut) {
-        Game.monkeyIsDizzy = true;
+        globals.monkeyIsDizzy = true;
       },
     );
     _coconutList.add(coconut);
@@ -221,7 +190,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return Theme(
-          data: Theme.of(context).copyWith(dialogBackgroundColor: globals.baseColor),
+          data: Theme.of(context)
+              .copyWith(dialogBackgroundColor: globals.baseColor),
           child: LeaderboardDialog(
             score: _bananaCounter,
           ),

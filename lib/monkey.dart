@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:monkeygame/game.dart';
+import 'package:monkeygame/globals.dart' as globals;
 
 enum MonkeyMovement { LEFT, RIGHT, WAIT }
 
@@ -33,14 +33,14 @@ class _MonkeyState extends State<Monkey> {
   @override
   void initState() {
     _timer = Timer.periodic(Duration(milliseconds: 40), (timer) {
-      if(Game.monkeyIsDizzy) return;
+      if(globals.monkeyIsDizzy) return;
       setState(() {
         if (widget.movement == MonkeyMovement.LEFT) {
           _margin -= widget.speed;
         } else if (widget.movement == MonkeyMovement.RIGHT) {
           _margin += widget.speed;
         }
-        Game.monkeyX = _margin;
+        globals.monkeyX = _margin;
       });
     });
 
@@ -71,7 +71,7 @@ class _MonkeyState extends State<Monkey> {
   }
 
   String getAnimation() {
-    if(Game.monkeyIsDizzy) return "dizzy";
+    if(globals.monkeyIsDizzy) return "dizzy";
     return widget.movement == MonkeyMovement.WAIT ? "wait" : "walk";
   }
 

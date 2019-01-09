@@ -5,6 +5,28 @@ import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 
 final Color baseColor = const Color(0xffBF844C);
+
+///lifecycle state of the app
+AppLifecycleState lifecycleState;
+
+///height of the monkey
+final double monkeyHeight = 80.0;
+
+///width of the monkey
+final double monkeyWidth = 80.0;
+
+///height of visible game stack
+double screenHeight;
+
+///width of visible game stack
+double screenWidth;
+
+///current x value of the monkey
+double monkeyX = 100.0;
+
+///state of the monkey
+bool monkeyIsDizzy = false;
+
 final AudioPlayer audioPlayer = AudioPlayer();
 
 playMusic(String filePath) async {
