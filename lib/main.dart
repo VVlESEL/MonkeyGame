@@ -8,10 +8,15 @@ import 'dart:async';
 import 'package:monkeygame/background.dart';
 import 'package:monkeygame/leaderboard_dialog.dart';
 import 'package:monkeygame/more.dart';
-import 'package:monkeygame/style.dart';
+import 'package:monkeygame/globals.dart' as globals;
 
 void main() {
   FirebaseAdMob.instance.initialize(appId: getAdMobAppId());
+  globals.playMusic("song_ukulele.mp3");
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 
   runApp(MyApp());
 }
@@ -19,11 +24,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Set orientation
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -34,10 +34,10 @@ class MyApp extends StatelessWidget {
         '/more': (BuildContext context) => More(),
       },
       theme: ThemeData(
-        primaryColor: baseColor,
+        primaryColor: globals.baseColor,
         cursorColor: Colors.white,
-        primaryIconTheme: IconThemeData(color: baseColor),
-        iconTheme: IconThemeData(color: baseColor),
+        primaryIconTheme: IconThemeData(color: globals.baseColor),
+        iconTheme: IconThemeData(color: globals.baseColor),
         accentIconTheme: IconThemeData(color: Colors.white),
         textTheme: TextTheme(
             headline: TextStyle(
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
               fontSize: 26.0,
             ),
             display1: TextStyle(
-              color: baseColor,
+              color: globals.baseColor,
               fontWeight: FontWeight.bold,
               fontSize: 26.0,
             ),
@@ -143,7 +143,7 @@ class _StartState extends State<Start> {
                         builder: (BuildContext context) {
                           return Theme(
                             data: Theme.of(context)
-                                .copyWith(dialogBackgroundColor: baseColor),
+                                .copyWith(dialogBackgroundColor: globals.baseColor),
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 50.0),
                               child: LeaderboardDialog(),

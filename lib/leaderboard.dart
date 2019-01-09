@@ -16,7 +16,11 @@ class _LeaderboardState extends State<Leaderboard> {
           .limit(100)
           .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return const Text("Loading...");
+        if (!snapshot.hasData)
+          return Text(
+            "Loading...",
+            style: Theme.of(context).textTheme.display2,
+          );
         return ListView.builder(
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {

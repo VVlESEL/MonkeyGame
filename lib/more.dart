@@ -3,7 +3,7 @@ import 'package:monkeygame/auth.dart' as auth;
 import 'package:monkeygame/background.dart';
 import 'package:monkeygame/choose_name_dialog.dart';
 import 'package:monkeygame/credits_dialog.dart';
-import 'package:monkeygame/style.dart';
+import 'package:monkeygame/globals.dart';
 
 class More extends StatefulWidget {
   @override

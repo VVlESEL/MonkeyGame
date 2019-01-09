@@ -22,6 +22,7 @@ dependencies:
   flare_flutter: ^1.0.4
   rxdart: ^0.20.0
 
+  path_provider: ^0.4.1
   audioplayers: ^0.7.8
 
   firebase_core: ^0.2.5+1
@@ -60,6 +61,10 @@ flutter:
 
     - assets/ic_facebook.png
     - assets/ic_google.png
+
+    - assets/song_funnysong.mp3
+    - assets/song_ukulele.mp3
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

@@ -7,6 +7,7 @@ import 'package:monkeygame/game_appbar.dart';
 import 'package:monkeygame/game_scaffold.dart';
 import 'package:monkeygame/monkey.dart';
 import 'package:monkeygame/leaderboard_dialog.dart';
+import 'package:monkeygame/globals.dart' as globals;
 
 class Game extends StatefulWidget {
   ///lifecycle state of the app
@@ -220,7 +221,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return Theme(
-          data: Theme.of(context).copyWith(dialogBackgroundColor: const Color(0xffBF844C)),
+          data: Theme.of(context).copyWith(dialogBackgroundColor: globals.baseColor),
           child: LeaderboardDialog(
             score: _bananaCounter,
           ),
