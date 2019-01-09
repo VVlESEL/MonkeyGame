@@ -134,11 +134,7 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
                     Center(
                       child: Text(
                         _info,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.display2
                       ),
                     ),
                   ]),

@@ -22,10 +22,7 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
         child: AlertDialog(
           title: Text(
             "Choose a Beautiful Name",
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 26.0),
+            style: Theme.of(context).textTheme.headline,
           ),
           content: ListView(
             shrinkWrap: true,
@@ -44,10 +41,7 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
                     return "Please enter between 3 and 15 letters...";
                 },
                 controller: _controller,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0),
+                style: Theme.of(context).textTheme.display2,
                 decoration: InputDecoration(hintText: "Beautiful Name"),
               ),
             ],
@@ -56,10 +50,7 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
             FlatButton(
               child: Text(
                 "Submit",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0),
+                style: Theme.of(context).textTheme.display2,
               ),
               onPressed: () async {
                 if (!_formKey.currentState.validate()) return;
@@ -83,16 +74,17 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
                   "name": _controller.text,
                   "email": auth.currentUser.email
                 });
+                await Firestore.instance
+                    .collection("leaderboard")
+                    .document(auth.currentUser.uid)
+                    .updateData({"name": _controller.text});
                 Navigator.of(context).pop(true);
               },
             ),
             FlatButton(
               child: Text(
                 "Cancel",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0),
+                style: Theme.of(context).textTheme.display2,
               ),
               onPressed: () {
                 Navigator.of(context).pop(false);

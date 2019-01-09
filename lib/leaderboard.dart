@@ -29,19 +29,24 @@ class _LeaderboardState extends State<Leaderboard> {
 
   Widget _buildListItem(
       BuildContext context, int rank, DocumentSnapshot document) {
-
     Color color = Colors.brown.shade800;
-    switch(rank){
-      case 1: color = Colors.yellow; break;
+    switch (rank) {
+      case 1:
+        color = Colors.yellow;
+        break;
       case 2:
       case 3:
       case 4:
-      case 5: color = Colors.orangeAccent; break;
+      case 5:
+        color = Colors.orangeAccent;
+        break;
       case 6:
       case 7:
       case 8:
       case 9:
-      case 10: color = Colors.deepOrangeAccent; break;
+      case 10:
+        color = Colors.deepOrangeAccent;
+        break;
     }
 
     return ListTile(
@@ -49,26 +54,18 @@ class _LeaderboardState extends State<Leaderboard> {
         backgroundColor: color,
         child: Text(
           rank.toString(),
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.display2,
         ),
       ),
-      title: Text(document["name"].toString(),
+      title: Text(
+        document["name"].toString(),
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-        ),),
-      trailing: Text(document["score"].toString(),
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-        ),),
+        style: Theme.of(context).textTheme.display2,
+      ),
+      trailing: Text(
+        document["score"].toString(),
+        style: Theme.of(context).textTheme.display2,
+      ),
     );
   }
 }

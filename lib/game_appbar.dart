@@ -11,6 +11,7 @@ class GameAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
+      iconTheme: Theme.of(context).accentIconTheme,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -24,10 +25,7 @@ class GameAppBar extends StatelessWidget with PreferredSizeWidget {
               Text(
                 bananaCounter.toString(),
                 maxLines: 1,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.display2,
               ),
             ],
           ),
@@ -36,16 +34,13 @@ class GameAppBar extends StatelessWidget with PreferredSizeWidget {
               Container(
                 height: 40.0,
                 width: 40.0,
-                child: Icon(Icons.access_time),
+                child: Icon(Icons.access_time, color: Theme.of(context).accentIconTheme.color,),
               ),
               Text(
                 secondsLeft.toString(),
                 maxLines: 1,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
+                style: Theme.of(context).textTheme.display2,
+              ),
             ],
           ),
         ],

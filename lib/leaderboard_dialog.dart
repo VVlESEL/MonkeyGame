@@ -23,9 +23,8 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
       height: MediaQuery.of(context).size.height,
       child: AlertDialog(
         title: Text(
-          "Leaderboard",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 26.0),
+          "Ranking",
+          style: Theme.of(context).textTheme.headline,
         ),
         content: _content,
         actions: <Widget>[
@@ -33,10 +32,7 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
               ? FlatButton(
                   child: Text(
                     "Cancel",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0),
+                    style: Theme.of(context).textTheme.display2,
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -54,10 +50,7 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
                             _sendScore();
                             return Text(
                               "Score Updated...",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0),
+                              style: Theme.of(context).textTheme.display2,
                             );
                           } else {
                             return Container(
@@ -68,10 +61,7 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
                                 children: <Widget>[
                                   Text(
                                     "Submit:   ",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0),
+                                    style: Theme.of(context).textTheme.display2,
                                   ),
                                   FlatButton(
                                     onPressed: () async {
@@ -121,10 +111,7 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
                         children: <Widget>[
                           Text(
                             "Play Again:",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.0),
+                            style: Theme.of(context).textTheme.display2,
                           ),
                           FlatButton(
                             child: Icon(

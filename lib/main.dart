@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:monkeygame/choose_name_dialog.dart';
 import 'package:monkeygame/game.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:firebase_admob/firebase_admob.dart';
@@ -36,6 +35,26 @@ class MyApp extends StatelessWidget {
       },
       theme: ThemeData(
         primaryColor: baseColor,
+        cursorColor: Colors.white,
+        primaryIconTheme: IconThemeData(color: baseColor),
+        iconTheme: IconThemeData(color: baseColor),
+        accentIconTheme: IconThemeData(color: Colors.white),
+        textTheme: TextTheme(
+            headline: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 26.0,
+            ),
+            display1: TextStyle(
+              color: baseColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 26.0,
+            ),
+            display2: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0,
+            )),
       ),
     );
   }
@@ -112,17 +131,19 @@ class _StartState extends State<Start> {
 
                       Navigator.of(context).pushNamed('/game');
                     },
-                    child: Text("Start Game", style: _textStyle()),
+                    child: Text(
+                      "Start Game",
+                      style: Theme.of(context).textTheme.display1,
+                    ),
                   ),
                   FlatButton(
                     onPressed: () {
                       showDialog<void>(
                         context: context,
-                        barrierDismissible: false, // user must tap button!
                         builder: (BuildContext context) {
                           return Theme(
-                            data: Theme.of(context).copyWith(
-                                dialogBackgroundColor: baseColor),
+                            data: Theme.of(context)
+                                .copyWith(dialogBackgroundColor: baseColor),
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 50.0),
                               child: LeaderboardDialog(),
@@ -131,21 +152,19 @@ class _StartState extends State<Start> {
                         },
                       );
                     },
-                    child: Text("Leaderboard", style: _textStyle()),
+                    child: Text(
+                      "Ranking",
+                      style: Theme.of(context).textTheme.display1,
+                    ),
                   ),
                   FlatButton(
                     onPressed: () {
-                      /*
-                      _isCurrentRoute = false;
-                      if (_isBannerAdShown) {
-                        Timer(const Duration(milliseconds: 250), () {
-                          _bannerAd?.dispose();
-                        });
-                      }
-*/
                       Navigator.of(context).pushNamed('/more');
                     },
-                    child: Text("More", style: _textStyle()),
+                    child: Text(
+                      "More",
+                      style: Theme.of(context).textTheme.display1,
+                    ),
                   ),
                 ],
               ),
@@ -153,14 +172,6 @@ class _StartState extends State<Start> {
           ),
         ),
       ],
-    );
-  }
-
-  TextStyle _textStyle() {
-    return TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: 26.0,
     );
   }
 }
