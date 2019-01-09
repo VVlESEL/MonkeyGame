@@ -146,7 +146,7 @@ DEPENDENCIES:
   - firebase_admob (from `.symlinks/plugins/firebase_admob/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
-  - Flutter (from `.symlinks/flutter/ios`)
+  - Flutter (from `.symlinks/flutter/ios-release`)
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
@@ -189,7 +189,7 @@ EXTERNAL SOURCES:
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
-    :path: ".symlinks/flutter/ios"
+    :path: ".symlinks/flutter/ios-release"
   flutter_facebook_login:
     :path: ".symlinks/plugins/flutter_facebook_login/ios"
   google_sign_in:
