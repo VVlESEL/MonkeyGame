@@ -18,7 +18,6 @@ class _LeaderboardState extends State<Leaderboard> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const Text("Loading...");
         return ListView.builder(
-            shrinkWrap: true,
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
               return _buildListItem(

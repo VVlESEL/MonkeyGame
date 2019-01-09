@@ -3,12 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:monkeygame/choose_name_dialog.dart';
 import 'package:monkeygame/game.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:monkeygame/auth.dart' as auth;
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:monkeygame/admob.dart';
 import 'dart:async';
 import 'package:monkeygame/background.dart';
 import 'package:monkeygame/leaderboard_dialog.dart';
+import 'package:monkeygame/more.dart';
+import 'package:monkeygame/style.dart';
 
 void main() {
   FirebaseAdMob.instance.initialize(appId: getAdMobAppId());
@@ -31,10 +32,10 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/home': (BuildContext context) => Start(),
         '/game': (BuildContext context) => Game(),
+        '/more': (BuildContext context) => More(),
       },
       theme: ThemeData(
-        primaryColor: Color(0xffBF844C),
-        accentColor: Color(0xffBF844C),
+        primaryColor: baseColor,
       ),
     );
   }
@@ -115,66 +116,36 @@ class _StartState extends State<Start> {
                   ),
                   FlatButton(
                     onPressed: () {
-                      _isCurrentRoute = false;
-                      if (_isBannerAdShown) {
-                        Timer(const Duration(milliseconds: 250), () {
-                          _bannerAd?.dispose();
-                        });
-                      }
-
                       showDialog<void>(
                         context: context,
                         barrierDismissible: false, // user must tap button!
                         builder: (BuildContext context) {
                           return Theme(
                             data: Theme.of(context).copyWith(
-                                dialogBackgroundColor: const Color(0xffBF844C)),
-                            child: LeaderboardDialog(),
+                                dialogBackgroundColor: baseColor),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 50.0),
+                              child: LeaderboardDialog(),
+                            ),
                           );
                         },
                       );
                     },
                     child: Text("Leaderboard", style: _textStyle()),
                   ),
-                  /*
                   FlatButton(
                     onPressed: () {
+                      /*
                       _isCurrentRoute = false;
                       if (_isBannerAdShown) {
                         Timer(const Duration(milliseconds: 250), () {
                           _bannerAd?.dispose();
                         });
                       }
-
-                      showDialog<bool>(
-                        context: context,
-                        barrierDismissible: false, // user must tap button!
-                        builder: (BuildContext context) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                                dialogBackgroundColor: const Color(0xffBF844C)),
-                            child: ChooseNameDialog(),
-                          );
-                        },
-                      );
+*/
+                      Navigator.of(context).pushNamed('/more');
                     },
-                    child: Text("Change Name", style: _textStyle()),
-                  ),
-                  */
-                  Builder(
-                    builder: (BuildContext context) => FlatButton(
-                          onPressed: () => auth.logout().then((b) {
-                                if (b) {
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                    backgroundColor: Colors.transparent,
-                                    content: Text("Logged out...",
-                                        style: _textStyle()),
-                                    duration: Duration(seconds: 2),
-                                  ));
-                                }
-                              }),
-                          child: Text("Logout", style: _textStyle()),
-                        ),
+                    child: Text("More", style: _textStyle()),
                   ),
                 ],
               ),

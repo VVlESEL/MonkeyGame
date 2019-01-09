@@ -18,131 +18,132 @@ class _LeaderboardDialogState extends State<LeaderboardDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        "Leaderboard",
-        style: TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 26.0),
-      ),
-      content: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: _content,
-      ),
-      actions: <Widget>[
-        widget.score == 0
-            ? FlatButton(
-                child: Text(
-                  "Cancel",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  FutureBuilder(
-                    initialData: false,
-                    future: auth.checkLogin(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data) {
-                          _sendScore();
-                          return Text(
-                            "Score Updated...",
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: AlertDialog(
+        title: Text(
+          "Leaderboard",
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 26.0),
+        ),
+        content: _content,
+        actions: <Widget>[
+          widget.score == 0
+              ? FlatButton(
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    FutureBuilder(
+                      initialData: false,
+                      future: auth.checkLogin(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.data) {
+                            _sendScore();
+                            return Text(
+                              "Score Updated...",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
+                            );
+                          } else {
+                            return Container(
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    "Submit:   ",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.0),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () async {
+                                      bool isLogin = await auth.facebookLogin();
+                                      if (isLogin) {
+                                        if (await _chooseNameOrContinue()) {
+                                          _sendScore();
+                                          setState(
+                                              () => _content = Leaderboard());
+                                        }
+                                      }
+                                    },
+                                    child: Image.asset(
+                                      "assets/ic_facebook.png",
+                                      width: 30.0,
+                                      height: 30.0,
+                                    ),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () async {
+                                      bool isLogin = await auth.googleLogin();
+                                      if (isLogin) {
+                                        if (await _chooseNameOrContinue()) {
+                                          _sendScore();
+                                          setState(
+                                              () => _content = Leaderboard());
+                                        }
+                                      }
+                                    },
+                                    child: Image.asset(
+                                      "assets/ic_google.png",
+                                      width: 30.0,
+                                      height: 30.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }
+                      },
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Play Again:",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20.0),
-                          );
-                        } else {
-                          return Container(
-                            width: MediaQuery.of(context).size.width * 0.6,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  "Submit:   ",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16.0),
-                                ),
-                                FlatButton(
-                                  onPressed: () async {
-                                    bool isLogin = await auth.facebookLogin();
-                                    if (isLogin) {
-                                      if (await _chooseNameOrContinue()) {
-                                        _sendScore();
-                                        setState(
-                                            () => _content = Leaderboard());
-                                      }
-                                    }
-                                  },
-                                  child: Image.asset(
-                                    "assets/ic_facebook.png",
-                                    width: 30.0,
-                                    height: 30.0,
-                                  ),
-                                ),
-                                FlatButton(
-                                  onPressed: () async {
-                                    bool isLogin = await auth.googleLogin();
-                                    if (isLogin) {
-                                      if (await _chooseNameOrContinue()) {
-                                        _sendScore();
-                                        setState(
-                                            () => _content = Leaderboard());
-                                      }
-                                    }
-                                  },
-                                  child: Image.asset(
-                                    "assets/ic_google.png",
-                                    width: 30.0,
-                                    height: 30.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      }
-                    },
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          "Play Again:",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0),
-                        ),
-                        FlatButton(
-                          child: Icon(
-                            Icons.repeat,
-                            color: Colors.white,
-                            size: 34.0,
+                                fontSize: 16.0),
                           ),
-                          onPressed: () {
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/game', ModalRoute.withName('/'));
-                          },
-                        ),
-                      ],
+                          FlatButton(
+                            child: Icon(
+                              Icons.repeat,
+                              color: Colors.white,
+                              size: 34.0,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  '/game', ModalRoute.withName('/'));
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-      ],
+                  ],
+                ),
+        ],
+      ),
     );
   }
 

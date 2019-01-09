@@ -16,16 +16,18 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: AlertDialog(
-        title: Text(
-          "Choose a Beautiful Name",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 26.0),
-        ),
-        content: Container(
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.9,
-          child: ListView(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: AlertDialog(
+          title: Text(
+            "Choose a Beautiful Name",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 26.0),
+          ),
+          content: ListView(
             shrinkWrap: true,
             children: <Widget>[
               _isShowError
@@ -50,54 +52,54 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
               ),
             ],
           ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                "Submit",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0),
+              ),
+              onPressed: () async {
+                if (!_formKey.currentState.validate()) return;
+
+                QuerySnapshot snapshot = await Firestore.instance
+                    .collection("user")
+                    .where("name", isEqualTo: _controller.text)
+                    .limit(1)
+                    .getDocuments();
+
+                if (snapshot.documents.length > 0) {
+                  setState(() => _isShowError = true);
+                  return;
+                }
+
+                await auth.updateUser(_controller.text);
+                await Firestore.instance
+                    .collection("user")
+                    .document(auth.currentUser.uid)
+                    .setData({
+                  "name": _controller.text,
+                  "email": auth.currentUser.email
+                });
+                Navigator.of(context).pop(true);
+              },
+            ),
+            FlatButton(
+              child: Text(
+                "Cancel",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
         ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              "Submit",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0),
-            ),
-            onPressed: () async {
-              if (!_formKey.currentState.validate()) return;
-
-              QuerySnapshot snapshot = await Firestore.instance
-                  .collection("user")
-                  .where("name", isEqualTo: _controller.text)
-                  .limit(1)
-                  .getDocuments();
-
-              if (snapshot.documents.length > 0) {
-                setState(() => _isShowError = true);
-                return;
-              }
-
-              await auth.updateUser(_controller.text);
-              await Firestore.instance
-                  .collection("user")
-                  .document(auth.currentUser.uid)
-                  .setData({
-                "name": _controller.text,
-                "email": auth.currentUser.email
-              });
-              Navigator.of(context).pop(true);
-            },
-          ),
-          FlatButton(
-            child: Text(
-              "Cancel",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-          ),
-        ],
       ),
     );
   }
