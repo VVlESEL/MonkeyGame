@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:monkeygame/falling_object.dart';
-import 'package:monkeygame/game_appbar.dart';
-import 'package:monkeygame/game_scaffold.dart';
-import 'package:monkeygame/monkey.dart';
-import 'package:monkeygame/leaderboard_dialog.dart';
-import 'package:monkeygame/globals.dart' as globals;
+import 'package:monkeygame/ui/falling_object.dart';
+import 'package:monkeygame/ui/game_appbar.dart';
+import 'package:monkeygame/ui/game_scaffold.dart';
+import 'package:monkeygame/ui/monkey.dart';
+import 'package:monkeygame/ui/dialogs/dialog_leaderboard.dart';
+import 'package:monkeygame/utils/globals.dart' as globals;
 
 class Game extends StatefulWidget {
   Game({Key key}) : super(key: key);

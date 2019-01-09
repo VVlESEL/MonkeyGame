@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:monkeygame/leaderboard.dart';
+import 'package:monkeygame/ui/leaderboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:monkeygame/auth.dart' as auth;
-import 'package:monkeygame/choose_name_dialog.dart';
+import 'package:monkeygame/utils/auth.dart' as auth;
+import 'package:monkeygame/ui/dialogs/dialog_name.dart';
 
 class LeaderboardDialog extends StatefulWidget {
   final int score;

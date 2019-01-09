@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_admob/firebase_admob.dart';
-import 'package:monkeygame/admob.dart';
+import 'package:monkeygame/utils/admob.dart';
 import 'dart:async';
-import 'package:monkeygame/globals.dart' as globals;
+import 'package:monkeygame/utils/globals.dart' as globals;
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:monkeygame/background.dart';
-import 'package:monkeygame/leaderboard_dialog.dart';
+import 'package:monkeygame/ui/background.dart';
+import 'package:monkeygame/ui/dialogs/dialog_leaderboard.dart';
 
 class Start extends StatefulWidget {
   @override

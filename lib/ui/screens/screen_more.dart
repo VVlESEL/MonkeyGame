@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:monkeygame/auth.dart' as auth;
-import 'package:monkeygame/background.dart';
-import 'package:monkeygame/choose_name_dialog.dart';
-import 'package:monkeygame/credits_dialog.dart';
-import 'package:monkeygame/globals.dart';
+import 'package:monkeygame/utils/auth.dart' as auth;
+import 'package:monkeygame/ui/background.dart';
+import 'package:monkeygame/ui/dialogs/dialog_name.dart';
+import 'package:monkeygame/ui/dialogs/dialog_credits.dart';
+import 'package:monkeygame/utils/globals.dart';
 
 class More extends StatefulWidget {
   @override

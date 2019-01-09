@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:monkeygame/game.dart';
 import 'package:firebase_admob/firebase_admob.dart';
-import 'package:monkeygame/admob.dart';
-import 'package:monkeygame/screen_start.dart';
-import 'package:monkeygame/more.dart';
-import 'package:monkeygame/globals.dart' as globals;
+import 'package:monkeygame/ui/screens/screen_game.dart';
+import 'package:monkeygame/ui/screens/screen_more.dart';
+import 'package:monkeygame/utils/admob.dart';
+import 'package:monkeygame/ui/screens/screen_start.dart';
+import 'package:monkeygame/utils/globals.dart' as globals;
 
 void main() {
   FirebaseAdMob.instance.initialize(appId: getAdMobAppId());

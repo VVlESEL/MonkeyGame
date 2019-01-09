@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:monkeygame/game_appbar.dart';
-import 'package:monkeygame/background.dart';
+import 'package:monkeygame/ui/game_appbar.dart';
+import 'package:monkeygame/ui/background.dart';
 
 class GameScaffold extends StatelessWidget {
   final GameAppBar appBar;

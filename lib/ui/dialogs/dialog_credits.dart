@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:monkeygame/auth.dart' as auth;
+import 'package:monkeygame/utils/auth.dart' as auth;
 
 class CreditsDialog extends StatefulWidget {
   @override

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:monkeygame/globals.dart' as globals;
+import 'package:monkeygame/utils/globals.dart' as globals;
 
 enum MonkeyMovement { LEFT, RIGHT, WAIT }
 
