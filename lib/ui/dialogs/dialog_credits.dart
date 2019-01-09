@@ -8,15 +8,15 @@ class CreditsDialog extends StatefulWidget {
 class _CreditsDialogState extends State<CreditsDialog> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: AlertDialog(
-        title: Text(
-          "Credits",
-          style: Theme.of(context).textTheme.headline,
-        ),
-        content: ListView(
+    return AlertDialog(
+      title: Text(
+        "Credits",
+        style: Theme.of(context).textTheme.headline,
+      ),
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: ListView(
           shrinkWrap: true,
           children: <Widget>[
             Padding(
@@ -42,21 +42,21 @@ class _CreditsDialogState extends State<CreditsDialog> {
             ),
           ],
         ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              "Got It",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-          ),
-        ],
       ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text(
+            "Got It",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop(false);
+          },
+        ),
+      ],
     );
   }
 }

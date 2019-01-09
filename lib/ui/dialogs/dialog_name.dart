@@ -16,15 +16,15 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: AlertDialog(
-          title: Text(
-            "Choose a Beautiful Name",
-            style: Theme.of(context).textTheme.headline,
-          ),
-          content: ListView(
+      child: AlertDialog(
+        title: Text(
+          "Choose a Beautiful Name",
+          style: Theme.of(context).textTheme.headline,
+        ),
+        content: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: ListView(
             shrinkWrap: true,
             children: <Widget>[
               _isShowError
@@ -46,52 +46,52 @@ class _ChooseNameDialogState extends State<ChooseNameDialog> {
               ),
             ],
           ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                "Submit",
-                style: Theme.of(context).textTheme.display2,
-              ),
-              onPressed: () async {
-                if (!_formKey.currentState.validate()) return;
-
-                QuerySnapshot snapshot = await Firestore.instance
-                    .collection("user")
-                    .where("name", isEqualTo: _controller.text)
-                    .limit(1)
-                    .getDocuments();
-
-                if (snapshot.documents.length > 0) {
-                  setState(() => _isShowError = true);
-                  return;
-                }
-
-                await auth.updateUser(_controller.text);
-                await Firestore.instance
-                    .collection("user")
-                    .document(auth.currentUser.uid)
-                    .setData({
-                  "name": _controller.text,
-                  "email": auth.currentUser.email
-                });
-                await Firestore.instance
-                    .collection("leaderboard")
-                    .document(auth.currentUser.uid)
-                    .updateData({"name": _controller.text});
-                Navigator.of(context).pop(true);
-              },
-            ),
-            FlatButton(
-              child: Text(
-                "Cancel",
-                style: Theme.of(context).textTheme.display2,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-            ),
-          ],
         ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              "Submit",
+              style: Theme.of(context).textTheme.display2,
+            ),
+            onPressed: () async {
+              if (!_formKey.currentState.validate()) return;
+
+              QuerySnapshot snapshot = await Firestore.instance
+                  .collection("user")
+                  .where("name", isEqualTo: _controller.text)
+                  .limit(1)
+                  .getDocuments();
+
+              if (snapshot.documents.length > 0) {
+                setState(() => _isShowError = true);
+                return;
+              }
+
+              await auth.updateUser(_controller.text);
+              await Firestore.instance
+                  .collection("user")
+                  .document(auth.currentUser.uid)
+                  .setData({
+                "name": _controller.text,
+                "email": auth.currentUser.email
+              });
+              await Firestore.instance
+                  .collection("leaderboard")
+                  .document(auth.currentUser.uid)
+                  .updateData({"name": _controller.text});
+              Navigator.of(context).pop(true);
+            },
+          ),
+          FlatButton(
+            child: Text(
+              "Cancel",
+              style: Theme.of(context).textTheme.display2,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+          ),
+        ],
       ),
     );
   }

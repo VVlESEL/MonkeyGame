@@ -8,15 +8,15 @@ class ReadMeDialog extends StatefulWidget {
 class _ReadMeDialogState extends State<ReadMeDialog> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: AlertDialog(
-        title: Text(
-          "Read Me",
-          style: Theme.of(context).textTheme.headline,
-        ),
-        content: ListView(
+    return AlertDialog(
+      title: Text(
+        "Read Me",
+        style: Theme.of(context).textTheme.headline,
+      ),
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: ListView(
           shrinkWrap: true,
           children: <Widget>[
             Text(
@@ -49,21 +49,21 @@ class _ReadMeDialogState extends State<ReadMeDialog> {
             ),
           ],
         ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              "Got It",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-          ),
-        ],
       ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text(
+            "Got It",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop(false);
+          },
+        ),
+      ],
     );
   }
 }
