@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:monkeygame/utils/auth.dart' as auth;
 
 class CreditsDialog extends StatefulWidget {
   @override
@@ -16,25 +14,31 @@ class _CreditsDialogState extends State<CreditsDialog> {
       child: AlertDialog(
         title: Text(
           "Credits",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 26.0),
+          style: Theme.of(context).textTheme.headline,
         ),
         content: ListView(
           shrinkWrap: true,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text("Jungle Photo by Marianne Long on Unsplash",
-                  style: _textStyle()),
+              child: Text(
+                "Jungle Photo by Marianne Long on Unsplash",
+                style: Theme.of(context).textTheme.display3,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text("Leafs Photo by Yoal Desurmont on Unsplash",
-                  style: _textStyle()),
+              child: Text(
+                "Leafs Photo by Yoal Desurmont on Unsplash",
+                style: Theme.of(context).textTheme.display3,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text("Music: https://www.bensound.com", style: _textStyle()),
+              child: Text(
+                "Music: https://www.bensound.com",
+                style: Theme.of(context).textTheme.display3,
+              ),
             ),
           ],
         ),
@@ -53,14 +57,6 @@ class _CreditsDialogState extends State<CreditsDialog> {
           ),
         ],
       ),
-    );
-  }
-
-  TextStyle _textStyle() {
-    return TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: 16.0,
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:monkeygame/ui/background.dart';
 import 'package:monkeygame/ui/dialogs/dialog_name.dart';
 import 'package:monkeygame/ui/dialogs/dialog_credits.dart';
 import 'package:monkeygame/utils/globals.dart';
+import 'package:monkeygame/ui/dialogs/dialog_readme.dart';
 
 class More extends StatefulWidget {
   @override
@@ -44,6 +45,33 @@ class _MoreState extends State<More> {
                     ),
                     title: Text(
                       "Credits",
+                      style: Theme.of(context).textTheme.display1,
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    showDialog<bool>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Theme(
+                          data: Theme.of(context)
+                              .copyWith(dialogBackgroundColor: baseColor),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 50.0),
+                            child: ReadMeDialog(),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.help_outline,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    title: Text(
+                      "Read Me",
                       style: Theme.of(context).textTheme.display1,
                     ),
                   ),

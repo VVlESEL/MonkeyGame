@@ -36,21 +36,27 @@ class MyApp extends StatelessWidget {
         iconTheme: IconThemeData(color: globals.baseColor),
         accentIconTheme: IconThemeData(color: Colors.white),
         textTheme: TextTheme(
-            headline: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 26.0,
-            ),
-            display1: TextStyle(
-              color: globals.baseColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 26.0,
-            ),
-            display2: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0,
-            )),
+          headline: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 26.0,
+          ),
+          display1: TextStyle(
+            color: globals.baseColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 26.0,
+          ),
+          display2: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+          ),
+          display3: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 16.0,
+          ),
+        ),
       ),
     );
   }
