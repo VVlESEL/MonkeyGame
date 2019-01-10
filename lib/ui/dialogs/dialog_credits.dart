@@ -47,10 +47,7 @@ class _CreditsDialogState extends State<CreditsDialog> {
         FlatButton(
           child: Text(
             "Got It",
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0),
+            style: Theme.of(context).textTheme.display2,
           ),
           onPressed: () {
             Navigator.of(context).pop(false);

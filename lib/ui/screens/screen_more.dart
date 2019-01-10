@@ -33,7 +33,10 @@ class _MoreState extends State<More> {
                         return Theme(
                           data: Theme.of(context)
                               .copyWith(dialogBackgroundColor: baseColor),
-                          child: CreditsDialog(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 50.0),
+                            child: CreditsDialog(),
+                          ),
                         );
                       },
                     );
@@ -88,7 +91,10 @@ class _MoreState extends State<More> {
                             return Theme(
                               data: Theme.of(context)
                                   .copyWith(dialogBackgroundColor: baseColor),
-                              child: ChooseNameDialog(),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 50.0),
+                                child: ChooseNameDialog(),
+                              ),
                             );
                           },
                         );
